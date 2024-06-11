@@ -1,7 +1,8 @@
 `timescale 1ns / 1ps
 
 module tb_axil_fw_top #(
-	int G_ADDR_W = 12, 					// AXIL xADDR bit width
+
+	int G_ADDR_W = 4, 					// AXIL xADDR bit width
 	int G_DATA_B = 8, 					// AXIL xDATA number of bytes (B)
 	
 	real dt = 1.0 						// clock period ns
@@ -9,8 +10,11 @@ module tb_axil_fw_top #(
 
 	localparam C_DATA_W = 8 * G_DATA_B; // AXIL xDATA bit width
 
-	logic i_clk   = 1;
-	logic i_rst_n = 0;
+	logic i_clk   	= 1;
+	logic i_rst_n 	= 0;
+	logic i_err 	= 0;
+
+	reg	[4 : 0] i_hsk_ena 	= '1; 
 
 	always #(dt / 2.0) i_clk = ~i_clk;
 
@@ -21,14 +25,6 @@ module tb_axil_fw_top #(
 
 	end
 
-//  AXI4 Memory Mapped (lite) Parameters to Define the Signal Widths:
-//    N - Data Bus Width in Bytes;
-//    A - Address Width;
-//    PAYMASK - Payload Mask: { awprot, wstrb, bresp, arprot, rresp }
-	if_axil #(
-		.N(G_DATA_B), 
-		.A(G_ADDR_W), 
-		.PAYMASK(5'b01101)) s_axil ();
 	if_axil #(
 		.N(G_DATA_B), 
 		.A(G_ADDR_W), 
@@ -39,15 +35,15 @@ module tb_axil_fw_top #(
 
 	task t_axil_m_init;
 		begin
-			s_axil.awvalid = '0;
-			s_axil.awaddr  = '0;
-			s_axil.wvalid  = '0;
-			s_axil.wdata   = '0;
-			s_axil.wstrb   = '0;
-			s_axil.bready  = '0;
-			s_axil.arvalid = '0;
-			s_axil.araddr  = '0;
-			s_axil.rready  = '0;
+			m_axil.awvalid = '0;
+			m_axil.awaddr  = '0;
+			m_axil.wvalid  = '0;
+			m_axil.wdata   = '0;
+			m_axil.wstrb   = '0;
+			m_axil.bready  = '1;
+			m_axil.arvalid = '0;
+			m_axil.araddr  = '0;
+			m_axil.rready  = '1;
 		end
 	endtask : t_axil_m_init
 
@@ -64,14 +60,14 @@ module tb_axil_fw_top #(
 		begin
 
 		// write address
-			s_axil.awaddr = ADDR;
-			`MACRO_AXIL_HSK(s_axil, awready, awvalid);
+			m_axil.awaddr = ADDR;
+			`MACRO_AXIL_HSK(m_axil, awready, awvalid);
 		// write data
-			s_axil.wdata = DATA;
-			s_axil.wstrb = '1;
-			`MACRO_AXIL_HSK(s_axil, wready, wvalid);
+			m_axil.wdata = DATA;
+			m_axil.wstrb = '1;
+			`MACRO_AXIL_HSK(m_axil, wready, wvalid);
 		// write response
-			`MACRO_AXIL_HSK(s_axil, bvalid, bready);
+			// `MACRO_AXIL_HSK(m_axil, bvalid, bready);
 
 		end
 	endtask : t_axil_m_wr
@@ -81,164 +77,51 @@ module tb_axil_fw_top #(
 		begin
 
 		// read address
-			s_axil.araddr = ADDR;
-			`MACRO_AXIL_HSK(s_axil, arready, arvalid);
+			m_axil.araddr = ADDR;
+			`MACRO_AXIL_HSK(m_axil, arready, arvalid);
 		// read data
-			`MACRO_AXIL_HSK(s_axil, rvalid, rready);
+			// `MACRO_AXIL_HSK(m_axil, rvalid, rready);
 		
 		end
-	endtask : t_axil_m_rd
+	endtask : t_axil_m_rd	
 
-	task t_axil_s_init;
-		begin
-
-			m_axil.awready = '0;
-			m_axil.wready  = '0;
-			m_axil.bvalid  = '0;
-			m_axil.bresp   = 2'b00;
-			m_axil.arready = '0;
-			m_axil.rvalid  = '0;
-			m_axil.rresp   = '0;
-			m_axil.rdata   = '0;
-		
-		end
-	endtask : t_axil_s_init
-
-	task t_axil_s_wr;
-		input [1:0] RESP;
-		begin
-
-		// write address
-			`MACRO_AXIL_HSK(m_axil, awvalid, awready);
-		// write data
-			`MACRO_AXIL_HSK(m_axil, wvalid, wready);
-		// write response
-			m_axil.bresp = RESP;
-			`MACRO_AXIL_HSK(m_axil, bready, bvalid);
-		
-		end
-	endtask : t_axil_s_wr
-
-	task t_axil_s_wr_bad;
-		input [1:0] RESP;
-		begin
-
-		// write address
-			`MACRO_AXIL_HSK(m_axil, awvalid, awready);
-		// write data
-			// `MACRO_AXIL_HSK(m_axil, wvalid, wready);
-		// write response
-			// m_axil.bresp = RESP;
-			// `MACRO_AXIL_HSK(m_axil, bready, bvalid);
-			
-		end
-	endtask : t_axil_s_wr_bad
-
-	t_xaddr v_araddr;
-
-	task t_axil_s_rd;
-		input [1:0] RESP;
-		begin
-
-		// read address
-			`MACRO_AXIL_HSK(m_axil, arvalid, arready);
-			v_araddr = m_axil.araddr;
-		// read data
-			m_axil.rresp = RESP;
-			case(v_araddr)
-
-				RW_TRN_ENA: m_axil.rdata = 1;
-				WR_TRN_TBL: m_axil.rdata = 2;
-				RW_GLU_ENA: m_axil.rdata = 3;
-				RW_GLU_OFS: m_axil.rdata = 4;
-				RW_DWS_PRM: m_axil.rdata = 5;
-			
-			endcase
-
-			`MACRO_AXIL_HSK(m_axil, rready, rvalid);
-		
-		end
-	endtask : t_axil_s_rd
-
-	task t_axil_s_rd_bad;
-		input [1:0] RESP;
-		begin
-
-		// read address
-			`MACRO_AXIL_HSK(m_axil, arvalid, arready);
-			v_araddr = m_axil.araddr;
-		// read data
-			m_axil.rresp = RESP;
-			case(v_araddr)
-
-				RW_TRN_ENA: m_axil.rdata = 1;
-				WR_TRN_TBL: m_axil.rdata = 2;
-				RW_GLU_ENA: m_axil.rdata = 3;
-				RW_GLU_OFS: m_axil.rdata = 4;
-				RW_DWS_PRM: m_axil.rdata = 5;
-			
-			endcase
-
-			// `MACRO_AXIL_HSK(m_axil, rready, rvalid);
-		
-		end
-	endtask : t_axil_s_rd_bad	
-
-	localparam t_xaddr RW_TRN_ENA = 'h001; 
-	localparam t_xaddr WR_TRN_TBL = 'h008;
-	localparam t_xaddr RW_GLU_ENA = 'h100; 
-	localparam t_xaddr RW_GLU_OFS = 'h108; 
-	localparam t_xaddr RW_DWS_PRM = 'h200;
+ 	localparam t_xaddr	TST_ADDR1   = 'h01; 
+    localparam t_xaddr 	TST_ADDR2	= 'h02;
+	localparam t_xaddr  TST_ADDR3   = 'h03;
+    localparam t_xaddr 	TST_ADDR4	= 'h04; 
+	localparam t_xaddr  WRN_ADDR1   = 'h05;
+    localparam t_xaddr 	WRN_ADDR2	= 'h06;
+	localparam t_xaddr  WRN_ADDR3   = 'h07;
+    localparam t_xaddr 	WRN_ADDR4	= 'h08;  
 
 	initial begin
 
 		t_axil_m_init; #10.9;
 
-		t_axil_m_wr(.ADDR('h001), .DATA(111)); #10;			// 1	
-		t_axil_m_wr(.ADDR('h002), .DATA(222)); #10;			// 2
-		t_axil_m_rd(.ADDR(RW_TRN_ENA)); #10;				// 3
-		t_axil_m_rd(.ADDR(RW_TRN_ENA)); #10;				// 4
-		t_axil_m_wr(.ADDR('h003), .DATA(333)); #10;			// 5
-		t_axil_m_wr(.ADDR('h004), .DATA(333)); #10;			// 6	
-		t_axil_m_wr(.ADDR('h004), .DATA(333)); #10;			// 7	
-		t_axil_m_rd(.ADDR(WR_TRN_TBL)); #10;				// 8
-		t_axil_m_rd(.ADDR(WR_TRN_TBL)); #10;				// 9
-		t_axil_m_rd(.ADDR(RW_GLU_ENA)); #10;				// 10
+		i_err = 1;
+		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA(111)); 	#10;			// 1
+		i_err = 0;				
+		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA(222)); 	#10;			// 2
+		t_axil_m_wr(.ADDR(WRN_ADDR1), .DATA(333));	#10;			// 5
+		t_axil_m_wr(.ADDR(WRN_ADDR2), .DATA(333)); 	#10;			// 6	
+		t_axil_m_wr(.ADDR(TST_ADDR3), .DATA(333)); 	#10;			// 7
+
+		t_axil_m_rd(.ADDR(TST_ADDR4)); 				#10;			// 8
+		t_axil_m_rd(.ADDR(WRN_ADDR2)); 				#10;			// 9
+		t_axil_m_rd(.ADDR(TST_ADDR1)); 				#10;			// 10
 
 	end
 
-	// 	xRESP :	00 - okay 					OKAY,
-	//			01 - exokay (not supported) EXOKAY,
-	//			10 - slave error 			SLVERR,
-	//			11 - decode error 
-	//				(no slave at address) 	DECERR
+    axil_fw_top u_axil_fw  (
 
-	initial begin
+        .i_clk      	(i_clk),
+        .i_rst      	(i_rst_n),
 
-		t_axil_s_init; #10.9;
+		.i_err          (i_err),
+        .i_hsk_ena      (i_hsk_ena),
 
-		t_axil_s_wr(.RESP(2'b00)); 		#10;				// 1
-		t_axil_s_wr_bad(.RESP(2'b00)); 	#10;				// 2
-		t_axil_s_rd(.RESP(2'b00)); 		#10;				// 3
-		t_axil_s_rd_bad(.RESP(2'b10)); 	#10;				// 4
-		t_axil_s_wr_bad(.RESP(2'b10)); 	#10;				// 5
-		t_axil_s_wr(.RESP(2'b10)); 		#10;				// 6
-		t_axil_s_wr(.RESP(2'b00)); 		#10;				// 6
-		t_axil_s_rd_bad(.RESP(2'b10)); 	#10;				// 8
-		t_axil_s_rd_bad(.RESP(2'b00)); 	#10;				// 9
-		t_axil_s_rd(.RESP(2'b10)); 		#10;				// 10
+        .s_axil     	(m_axil)
 
-	end
-
-    axil_fw u_axil_fw  (
-
-        .i_clk      (i_clk),
-        .i_rst      (i_rst_n),
-
-        .s_axil     (m_axil),
-        .m_axil     (s_axil)
-
-    );
-
+	);
 
 endmodule : tb_axil_fw_top
