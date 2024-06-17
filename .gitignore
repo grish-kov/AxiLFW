@@ -4,7 +4,7 @@
 !/*TODO*
 !*.md
 !*.tcl
-!*.wcfg
+*.wcfg
 
 # do not ignore sources folder except (mostly) temporary files
 !/*ip_repo
