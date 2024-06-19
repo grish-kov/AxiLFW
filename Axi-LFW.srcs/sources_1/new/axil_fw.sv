@@ -3,9 +3,9 @@
 module axil_fw #(
 
     shortint        G_CLK           = 1,                //  clock
-                    G_CNT_WDT       = 3,                //  counter width
+                    G_CNT_WDT       = 4,                //  counter width
                     G_ADDR_W        = 8,                //  AXIL xADDR width
-                    G_DATA_B        = 8,                //  AXIL xDATA byte width
+                    G_DATA_B        = 4,                //  AXIL xDATA byte width
                     G_WD_WDT        = 8,                //  watchdog timer len        
                     G_DATA_W        = G_DATA_B << 3,    //  AXIL xDATA width
 
@@ -45,10 +45,10 @@ module axil_fw #(
     //  axi-lite control slave ports
 
     output  reg  ctrl_axil_awready,  input   wire ctrl_axil_awvalid,  reg [G_ADDR_W - 1 : 0]  ctrl_axil_awaddr,   logic  [2 : 0]             ctrl_axil_awprot,          //  write addr
-    output  reg  ctrl_axil_wready,   input   wire ctrl_axil_wvalid,   reg [G_CNT_WDT * 6 + 5 : 0]  ctrl_axil_wdata,    reg    [G_DATA_B - 1 : 0]  ctrl_axil_wstrb,           //  write data 
+    output  reg  ctrl_axil_wready,   input   wire ctrl_axil_wvalid,   reg [G_DATA_W - 1 : 0]  ctrl_axil_wdata,    reg    [G_DATA_B - 1 : 0]  ctrl_axil_wstrb,           //  write data 
     input   wire ctrl_axil_bready,   output  reg  ctrl_axil_bvalid,   reg [1 : 0]             ctrl_axil_bresp,                                                          //  write resp 
     output  reg  ctrl_axil_arready,  input   wire ctrl_axil_arvalid,  reg [G_ADDR_W - 1 : 0]  ctrl_axil_araddr,   logic  [2 : 0]             ctrl_axil_arprot,          //  read addr 
-    input   wire ctrl_axil_rready,   output  reg  ctrl_axil_rvalid,   reg [G_CNT_WDT * 6 + 5 : 0]  ctrl_axil_rdata,    reg    [1 : 0]             ctrl_axil_rresp            //  read data & resp
+    input   wire ctrl_axil_rready,   output  reg  ctrl_axil_rvalid,   reg [G_DATA_W - 1 : 0]  ctrl_axil_rdata,    reg    [1 : 0]             ctrl_axil_rresp            //  read data & resp
 
     );
 
@@ -66,9 +66,9 @@ module axil_fw #(
 
     assign s_axil_awready   =       m_axil_awready;        
     assign s_axil_wready    =       m_axil_wready;        
-    assign s_axil_bvalid    =       m_axil_bvalid;        
+    // assign s_axil_bvalid    =       m_axil_bvalid;        
     assign s_axil_arready   =       m_axil_arready;      
-    assign s_axil_rvalid    =       m_axil_rvalid;        
+    // assign s_axil_rvalid    =       m_axil_rvalid;        
     assign s_axil_rdata     =       m_axil_rdata;           
 
     assign s_axil_bresp     =   2'b00;                  //  set bresp always OK
@@ -115,6 +115,9 @@ module axil_fw #(
     // firewall
 
     always_ff @(posedge i_clk) begin 
+
+        s_axil_bvalid <= m_axil_bvalid;
+        s_axil_rvalid <= m_axil_rvalid;
 
         //  use tmp. variable as watchdog max. value, if i_len is undefined, use default value = 50ns
 
@@ -263,8 +266,8 @@ module axil_fw #(
     reg [G_ADDR_W - 1 : 0]  WADDR,              //  tmp. write adress
                             RADDR;              //  tmp. read adresse  
 
-    reg [G_CNT_WDT * 6 + 5 : 0] q_wr_data,          //  tmp. write data
-                                q_rd_data;          //  tmp. read data
+    reg [G_DATA_W - 1 : 0]  q_wr_data,          //  tmp. write data
+                            q_rd_data;          //  tmp. read data
 
     always_ff @(posedge i_clk) begin 
 
@@ -344,33 +347,68 @@ module axil_fw #(
 
             case(RADDR)
 
-                G_WR_SLVERR_ADDR :
+                G_WR_SLVERR_ADDR : begin
 
-                    q_rd_data <= RG_STAT [G_CNT_WDT : 0];
+                    q_rd_data [G_CNT_WDT : 0] <= RG_STAT[G_CNT_WDT : 0];
+                    q_rd_data [G_DATA_W - 1 : G_CNT_WDT + 1] <= '0;
 
-                G_WR_DECERR_ADDR : 
+                    //q_rd_data <= '{default : 0, {G_CNT_WDT : 0} : RG_STAT[G_CNT_WDT : 0]};
 
-                    q_rd_data <= RG_STAT [G_CNT_WDT * 2 + 1: G_CNT_WDT + 1];
+                end
 
-                G_WR_WD_ERR_ADDR : 
+                G_WR_DECERR_ADDR : begin
 
-                    q_rd_data <= RG_STAT [G_CNT_WDT * 3 + 2 : G_CNT_WDT * 2 + 2];
+                    q_rd_data [G_CNT_WDT : 0] <= RG_STAT [G_CNT_WDT * 2 + 1: G_CNT_WDT + 1];
+                    q_rd_data [G_DATA_W - 1 : G_CNT_WDT + 1] <= '0;
 
-                G_RD_SLVERR_ADDR : 
+                    // q_rd_data <= '{default : '0, {G_CNT_WDT : 0} : RG_STAT [G_CNT_WDT * 2 + 1: G_CNT_WDT + 1]};
 
-                    q_rd_data <= RG_STAT [G_CNT_WDT * 4 + 3 : G_CNT_WDT * 3 + 3];
+                end
 
-                G_RD_DECERR_ADDR :
+                G_WR_WD_ERR_ADDR : begin
 
-                    q_rd_data <= RG_STAT [G_CNT_WDT * 5 + 4 : G_CNT_WDT * 4 + 4];
+                    q_rd_data [G_CNT_WDT : 0] <= RG_STAT [G_CNT_WDT * 3 + 2 : G_CNT_WDT * 2 + 2];
+                    q_rd_data [G_DATA_W - 1 : G_CNT_WDT + 1] <= '0;
 
-                G_RD_WD_ERR_ADDR : 
+                    // q_rd_data <= '{default : 0, {G_CNT_WDT : 0} : RG_STAT [G_CNT_WDT * 3 + 2 : G_CNT_WDT * 2 + 2]};
+                
+                end
+                
+                G_RD_SLVERR_ADDR : begin
 
-                    q_rd_data <= RG_STAT [G_CNT_WDT * 6 + 5 : G_CNT_WDT * 5 + 5];
+                    q_rd_data [G_CNT_WDT : 0] <= RG_STAT [G_CNT_WDT * 4 + 3 : G_CNT_WDT * 3 + 3];
+                    q_rd_data [G_DATA_W - 1 : G_CNT_WDT + 1] <= '0;
 
-                G_RG_ST_ERR_ADDR :
+                    // q_rd_data <= '{default : 0, {G_CNT_WDT : 0} : RG_STAT [G_CNT_WDT * 4 + 3 : G_CNT_WDT * 3 + 3]};
 
-                    q_rd_data   <= RG_STAT;
+                end
+
+                G_RD_DECERR_ADDR : begin
+
+                    q_rd_data [G_CNT_WDT : 0] <= RG_STAT [G_CNT_WDT * 5 + 4 : G_CNT_WDT * 4 + 4];
+                    q_rd_data [G_DATA_W - 1 : G_CNT_WDT + 1] <= '0;
+
+                    // q_rd_data <= '{default : 0, {G_CNT_WDT : 0} : RG_STAT [G_CNT_WDT * 5 + 4 : G_CNT_WDT * 4 + 4]};
+
+                end
+
+                G_RD_WD_ERR_ADDR : begin
+
+                    q_rd_data [G_CNT_WDT : 0] <= RG_STAT[G_CNT_WDT : 0];
+                    q_rd_data [G_DATA_W - 1 : G_CNT_WDT + 1] <= '0;
+
+                    // q_rd_data <= '{default : 0, {G_CNT_WDT : 0} : RG_STAT [G_CNT_WDT * 6 + 5 : G_CNT_WDT * 5 + 5]};
+                
+                end
+
+                G_RG_ST_ERR_ADDR : begin
+
+                    // q_rd_data   <= RG_STAT;
+
+                    q_rd_data [G_CNT_WDT * 6 + 5 : 0] <= RG_STAT;
+                    q_rd_data [G_DATA_W - 1 : G_CNT_WDT * 6 + 6] <= '0;
+
+                end
 
             endcase
 

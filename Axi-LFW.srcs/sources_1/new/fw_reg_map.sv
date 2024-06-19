@@ -3,8 +3,13 @@
 module fw_reg_map #(
     
     int G_ADDR_W = 8,                   // AXIL xADDR bit width
-	    G_DATA_B = 8,                   // AXIL xDATA number of bytes (B)
-        G_DATA_W = G_DATA_B << 3
+	    G_DATA_B = 4,                   // AXIL xDATA number of bytes (B)
+        G_DATA_W = G_DATA_B << 3,
+
+    logic [G_ADDR_W - 1 : 0]    TST_ADDR1   = 'h01, 
+                                TST_ADDR2	= 'h02,
+                                TST_ADDR3   = 'h03,
+                                TST_ADDR4	= 'h04   
 
 )(
     input   logic   i_clk,
@@ -21,17 +26,10 @@ module fw_reg_map #(
 
     );
 
-    localparam C_DATA_W = G_DATA_B << 3;
-
     typedef logic [G_ADDR_W - 1 : 0] t_xaddr;
-	typedef logic [C_DATA_W - 1 : 0] t_xdata;
-
- 	localparam t_xaddr	TST_ADDR1   = 'h01; 
-    localparam t_xaddr 	TST_ADDR2	= 'h02;
-	localparam t_xaddr  TST_ADDR3   = 'h03;
-    localparam t_xaddr 	TST_ADDR4	= 'h04;    
+	typedef logic [G_DATA_W - 1 : 0] t_xdata; 
     
-    t_xaddr     WADDR, RADDR, t_addr;  
+    t_xaddr     WADDR, RADDR;  
 
     t_xdata     q_wr_data = '0;
     t_xdata     q_rd_data = '0;
@@ -52,8 +50,8 @@ module fw_reg_map #(
 
     end
 
-    assign s_axil_bresp = (s_axil_bvalid & s_axil_bready) ? q_w_err : q_w_err;
-    assign s_axil_rresp = (s_axil_rvalid & s_axil_rready) ? q_r_err : q_r_err;
+    assign s_axil_bresp = q_w_err;
+    assign s_axil_rresp = q_r_err;
 
     always_ff @(posedge i_clk) begin
 
@@ -108,7 +106,6 @@ module fw_reg_map #(
 
         if (s_axil_arready & s_axil_arvalid & i_hsk_ena [3]) begin
 
-            t_addr          <= s_axil_araddr;
             RADDR           <= s_axil_araddr;
             q_rena          <= 1;
 
