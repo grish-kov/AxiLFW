@@ -2,12 +2,12 @@
 
 module axil_fw #(
 
-    int G_CLK           = 1,
-        G_CNT_WDT       = 3,                            //  counter width
-        G_ADDR_W        = 8,                            //  AXIL xADDR width
-        G_DATA_B        = 8,                            //  AXIL xDATA byte width
-        G_DATA_W        = G_DATA_B << 3,                //  AXIL xDATA width
-        G_WD_WDT        = 8,                            //  watchdog timer len        
+    shortint        G_CLK           = 1,                //  clock
+                    G_CNT_WDT       = 3,                //  counter width
+                    G_ADDR_W        = 8,                //  AXIL xADDR width
+                    G_DATA_B        = 8,                //  AXIL xDATA byte width
+                    G_WD_WDT        = 8,                //  watchdog timer len        
+                    G_DATA_W        = G_DATA_B << 3,    //  AXIL xDATA width
 
         //  addresses of errors in regmap
 
@@ -16,7 +16,9 @@ module axil_fw #(
                                 G_WR_WD_ERR_ADDR = 'h03,
                                 G_RD_SLVERR_ADDR = 'h04,
                                 G_RD_DECERR_ADDR = 'h05,
-                                G_RD_WD_ERR_ADDR = 'h06
+                                G_RD_WD_ERR_ADDR = 'h06,
+                                G_RG_ST_ERR_ADDR = 'h07
+
 
 ) (
 
@@ -43,26 +45,12 @@ module axil_fw #(
     //  axi-lite control slave ports
 
     output  reg  ctrl_axil_awready,  input   wire ctrl_axil_awvalid,  reg [G_ADDR_W - 1 : 0]  ctrl_axil_awaddr,   logic  [2 : 0]             ctrl_axil_awprot,          //  write addr
-    output  reg  ctrl_axil_wready,   input   wire ctrl_axil_wvalid,   reg [G_DATA_W - 1 : 0]  ctrl_axil_wdata,    reg    [G_DATA_B - 1 : 0]  ctrl_axil_wstrb,           //  write data 
+    output  reg  ctrl_axil_wready,   input   wire ctrl_axil_wvalid,   reg [G_CNT_WDT * 6 + 5 : 0]  ctrl_axil_wdata,    reg    [G_DATA_B - 1 : 0]  ctrl_axil_wstrb,           //  write data 
     input   wire ctrl_axil_bready,   output  reg  ctrl_axil_bvalid,   reg [1 : 0]             ctrl_axil_bresp,                                                          //  write resp 
     output  reg  ctrl_axil_arready,  input   wire ctrl_axil_arvalid,  reg [G_ADDR_W - 1 : 0]  ctrl_axil_araddr,   logic  [2 : 0]             ctrl_axil_arprot,          //  read addr 
-    input   wire ctrl_axil_rready,   output  reg  ctrl_axil_rvalid,   reg [G_DATA_W - 1 : 0]  ctrl_axil_rdata,    reg    [1 : 0]             ctrl_axil_rresp            //  read data & resp
+    input   wire ctrl_axil_rready,   output  reg  ctrl_axil_rvalid,   reg [G_CNT_WDT * 6 + 5 : 0]  ctrl_axil_rdata,    reg    [1 : 0]             ctrl_axil_rresp            //  read data & resp
 
     );
-
-    logic [G_WD_WDT - 1 : 0] C_WD_TIM;      //  watchdog max. value
-
-    //  use tmp. variable to watchdog max. value, if i_len is undefined, use default value = 50ns
-
-    initial begin
-
-        if (i_len > 0) 
-            C_WD_TIM = i_len / G_CLK;
-
-        else if (i_len === 'z)
-            C_WD_TIM = 50 / G_CLK;
-
-    end
 
     //  make ports end-to-end
 
@@ -122,9 +110,19 @@ module axil_fw #(
     assign
         RG_STAT [G_CNT_WDT * 6 + 5 : G_CNT_WDT * 5 + 5]  =   q_r_wd_err_cnt;      
 
+    logic [G_WD_WDT - 1 : 0] C_WD_TIM;      //  watchdog max. value
+
     // firewall
 
     always_ff @(posedge i_clk) begin 
+
+        //  use tmp. variable as watchdog max. value, if i_len is undefined, use default value = 50ns
+
+         if (i_len > 0) 
+            C_WD_TIM = i_len / G_CLK;
+
+        else if (i_len === 'z)
+            C_WD_TIM = 50 / G_CLK;
 
         // counting write errors
 
@@ -265,8 +263,8 @@ module axil_fw #(
     reg [G_ADDR_W - 1 : 0]  WADDR,              //  tmp. write adress
                             RADDR;              //  tmp. read adresse  
 
-    reg [G_DATA_W - 1 : 0]  q_wr_data,          //  tmp. write data
-                            q_rd_data;          //  tmp. read data
+    reg [G_CNT_WDT * 6 + 5 : 0] q_wr_data,          //  tmp. write data
+                                q_rd_data;          //  tmp. read data
 
     always_ff @(posedge i_clk) begin 
 
@@ -312,6 +310,8 @@ module axil_fw #(
                 G_RD_DECERR_ADDR : ;
 
                 G_RD_WD_ERR_ADDR : ;
+
+                G_RG_ST_ERR_ADDR : ;
 
             endcase 
 
@@ -368,10 +368,16 @@ module axil_fw #(
 
                     q_rd_data <= RG_STAT [G_CNT_WDT * 6 + 5 : G_CNT_WDT * 5 + 5];
 
+                G_RG_ST_ERR_ADDR :
+
+                    q_rd_data   <= RG_STAT;
+
             endcase
+
             
-            q_rena  <= 0;
-            q_rdena <= 1;
+
+            q_rena      <= 0;
+            q_rdena     <= 1;
 
         end
 

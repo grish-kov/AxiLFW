@@ -41,7 +41,8 @@ module fw_reg_map #(
             q_rena  = 0,
             q_rdena = 0;
 
-    logic [1 : 0] q_err = '0;
+    logic [1 : 0]   q_r_err = '0,
+                    q_w_err = '0;
 
     initial begin
 
@@ -51,8 +52,8 @@ module fw_reg_map #(
 
     end
 
-    assign s_axil_bresp = (s_axil_bvalid & s_axil_bready) ? q_err : q_err;
-    assign s_axil_rresp = (s_axil_rvalid & s_axil_rready) ? q_err : q_err;
+    assign s_axil_bresp = (s_axil_bvalid & s_axil_bready) ? q_w_err : q_w_err;
+    assign s_axil_rresp = (s_axil_rvalid & s_axil_rready) ? q_r_err : q_r_err;
 
     always_ff @(posedge i_clk) begin
 
@@ -76,7 +77,7 @@ module fw_reg_map #(
 
         if (q_wdena) begin
 
-            q_err = (i_err) ? 2'b10 : 2'b00;
+            q_w_err = (q_w_err) ? 2'b10 : 2'b00;
 
             case(WADDR)
 
@@ -88,7 +89,7 @@ module fw_reg_map #(
                     
                 TST_ADDR4 : ;
 
-                default :   q_err <= 2'b11;
+                default :   q_w_err <= 2'b11;
 
             endcase 
 
@@ -115,7 +116,7 @@ module fw_reg_map #(
 
         if (q_rena) begin
 
-            q_err = (i_err) ? 2'b10 : 2'b00;
+            q_r_err = (q_r_err) ? 2'b10 : 2'b00;
 
             case(RADDR)
 
@@ -127,7 +128,7 @@ module fw_reg_map #(
                     
                 TST_ADDR4 : q_rd_data <= 'h04;
 
-                default :   q_err <= 2'b11;
+                default :   q_r_err <= 2'b11;
 
             endcase 
 

@@ -14,7 +14,7 @@ module tb_axil_fw_top #(
 			i_rst	= 0,
 			i_err 	= 0;
 
-	reg [G_WD_WDT - 1 : 0] i_len = 8;
+	reg [G_WD_WDT - 1 : 0] i_len;
 
 	reg	[4 : 0] i_hsk_ena 	= '1; 
 
@@ -133,21 +133,43 @@ module tb_axil_fw_top #(
 		t_axil_ctrl_init;
 		t_axil_m_init; #10.9;
 
-		i_hsk_ena[0] = 0;
-		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA(111)); 			// 1
+		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA(111)); 	#10;			// 1
+		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA(222)); 	#10;			// 2
+		t_axil_m_wr(.ADDR(WRN_ADDR1), .DATA(333));	#10;			// 5
+		t_axil_m_wr(.ADDR(WRN_ADDR2), .DATA(333)); 	#10;			// 6
 
-		#60; i_hsk_ena[0] = 1;
+		t_axil_m_rd(.ADDR(TST_ADDR3)); 				#10;			// 7
+		t_axil_m_rd(.ADDR(TST_ADDR4)); 				#10;			// 8
+		t_axil_m_rd(.ADDR(WRN_ADDR3));				#10;			// 9
+		t_axil_m_rd(.ADDR(WRN_ADDR4)); 				#10;			// 10
 
 		i_err = 1;
+		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA(111)); 	#10;			// 1
 		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA(222)); 	#10;			// 2
-		i_err = 0;
-		t_axil_m_wr(.ADDR(WRN_ADDR1), .DATA(333));	#10;			// 5
-		t_axil_m_wr(.ADDR(WRN_ADDR2), .DATA(333)); 	#10;			// 6	
-		t_axil_m_wr(.ADDR(TST_ADDR3), .DATA(333)); 	#10;			// 7
 
-		t_axil_ctrl_rd(.ADDR('h01)); 				#10;			// 8
-		t_axil_ctrl_rd(.ADDR('h02)); 				#10;			// 9
-		t_axil_ctrl_rd(.ADDR('h03)); 				#10;			// 10
+		t_axil_m_rd(.ADDR(TST_ADDR3)); 				#10;			// 7
+		t_axil_m_rd(.ADDR(TST_ADDR4)); 				#10;			// 8
+
+		i_err = 0;
+
+		i_hsk_ena [0] = 0;
+
+		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA(111)); 	#10;			// 1
+		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA(222));					// 2
+		#20; i_hsk_ena[0] = 1;
+
+		#15;
+
+		t_axil_ctrl_rd(.ADDR('h01)); 				#10;			// 1 wr err
+		t_axil_ctrl_rd(.ADDR('h02)); 				#10;			// 2 wr err
+		t_axil_ctrl_rd(.ADDR('h03)); 				#10;			// 3 wr err
+		t_axil_ctrl_rd(.ADDR('h04)); 				#10;			// 4 rd err
+		t_axil_ctrl_rd(.ADDR('h05)); 				#10;			// 5 rd err
+		t_axil_ctrl_rd(.ADDR('h06)); 				#10;			// 6 rd err
+		t_axil_ctrl_rd(.ADDR('h07)); 				#10;			// 6 all err
+
+		#15;
+
 
 	end
 
