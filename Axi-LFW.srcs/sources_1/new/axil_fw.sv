@@ -119,7 +119,7 @@ module axil_fw #(
          if (i_len > 0) 
             C_WD_TIM = i_len;
 
-        else if (i_len === 'z)
+        else if (i_len === 'x)
             C_WD_TIM = 50;
 
         // counting write errors
@@ -160,77 +160,64 @@ module axil_fw #(
         if (!q_r_wd_ena)
             s_axil_rvalid   <= 0;
 
-        // if watchdog is enabled, start counting
-
-        if (q_w_wd_ena)
-            q_w_wd_cnt    <= q_w_wd_cnt - 1;
-
-        if (q_r_wd_ena)
-            q_r_wd_cnt    <= q_r_wd_cnt - 1;
-
         //  if write error, close transaction with slave error
+        
+        if (q_w_wd_cnt == 0)
+            q_w_wd_ena          <= 0;
+
+         if (q_w_wd_cnt == 0)
+            s_axil_bvalid       <= 1;
 
         if (q_w_wd_cnt == 0) begin
 
-            q_w_wd_err_cnt      <= q_w_wd_err_cnt + 1;     
-            q_w_wd_ena          <= 0;        
-            q_w_wd_cnt          <= C_WD_TIM;
+            q_w_wd_err_cnt      <= q_w_wd_err_cnt + 1;             
             q_bresp             <= 2'b10; 
-            s_axil_bvalid       <= 1;
-
+            
         end
            
         //  if read error, close transaction with slave error
 
-        if (q_r_wd_cnt == 0) begin
-
-            q_r_wd_err_cnt      <= q_r_wd_err_cnt + 1;     
-            q_r_wd_ena          <= 0;        
-            q_r_wd_cnt          <= C_WD_TIM;
-            q_rresp             <= 2'b10; 
-            
+        if (q_r_wd_cnt == 0)
             if (s_axil_rready) 
                 s_axil_rvalid   <= 1;
 
+
+        if (q_r_wd_cnt == 0)
+            q_r_wd_ena          <= 0;        
+
+        if (q_r_wd_cnt == 0) begin
+
+            q_r_wd_err_cnt      <= q_r_wd_err_cnt + 1;     
+            q_rresp             <= 2'b10; 
+            
         end
 
         //  if start of write transaction, enable watchdog
 
-        if (s_axil_awvalid & m_axil_awready) begin
-
-            q_w_wd_cnt      <= C_WD_TIM;
+        if (s_axil_awvalid & m_axil_awready)
             q_w_wd_ena      <= 1;
-
-        end
 
         //  if start of read transaction, enable watchdog
 
-        if (m_axil_arvalid & s_axil_arready) begin
-
-            q_r_wd_cnt      <= C_WD_TIM;
+        if (m_axil_arvalid & s_axil_arready)
             q_r_wd_ena      <= 1;
-
-        end
 
         //  if end of write transaction, reset watchdog
 
-        if (m_axil_bvalid & s_axil_bready) begin
-
-            q_bresp         <= m_axil_bresp;
-            q_w_wd_cnt      <= C_WD_TIM;
+        if (m_axil_bvalid & s_axil_bready)
             q_w_wd_ena      <= 0;
 
-        end
-        
+        if (m_axil_bvalid & s_axil_bready)
+            q_bresp         <= m_axil_bresp;
+
         //  if end of read transaction, reset watchdog
 
-        if (m_axil_rvalid & s_axil_rready) begin
-            
-            q_rresp         <= m_axil_rresp;
-            q_r_wd_cnt      <= C_WD_TIM;
+        if (m_axil_rvalid & s_axil_rready)
             q_r_wd_ena      <= 0;
 
-        end
+        if (m_axil_rvalid & s_axil_rready)
+            
+            q_rresp         <= m_axil_rresp;
 
     //  reset, active - high, reset all errors and counters
 
@@ -242,12 +229,44 @@ module axil_fw #(
             q_r_decerr_cnt  <= 0;
             q_w_wd_err_cnt  <= 0;
             q_r_wd_err_cnt  <= 0;
-            q_w_wd_cnt      <= C_WD_TIM;
-            q_r_wd_cnt      <= C_WD_TIM;
             q_w_wd_ena      <= 0;
             q_r_wd_ena      <= 0;
 
         end
+
+    end
+
+    logic   q_w_ena_set = 0,
+            q_r_ena_set = 0;
+
+    //  counters
+
+    always_ff @(posedge i_clk) begin
+
+        q_w_ena_set <= ((s_axil_awvalid & m_axil_awready) | (m_axil_bvalid & s_axil_bready));
+        q_r_ena_set <= ((s_axil_arvalid & m_axil_arready) | (m_axil_rvalid & s_axil_rready));
+
+        if (i_rst) begin
+
+            q_w_wd_cnt <= C_WD_TIM;
+            q_r_wd_cnt <= C_WD_TIM;
+
+        end
+        else begin
+
+            if (q_w_wd_ena) 
+                if (q_w_ena_set | q_w_wd_cnt == 0)
+                    q_w_wd_cnt <= C_WD_TIM;
+                else 
+                    q_w_wd_cnt <= q_w_wd_cnt - 1;
+
+            if (q_r_wd_ena) 
+                if (q_r_ena_set | q_r_wd_cnt == 0)
+                    q_r_wd_cnt <= C_WD_TIM;
+                else 
+                    q_r_wd_cnt <= q_r_wd_cnt - 1;
+
+        end 
 
     end
 
