@@ -2,23 +2,20 @@
 
 module axil_fw #(
 
-    shortint        G_CLK           = 1,                //  clock
-                    G_CNT_WDT       = 4,                //  counter width
-                    G_ADDR_W        = 8,                //  AXIL xADDR width
+    shortint        G_CNT_WDT       = 4,                //  counter width
+                    G_ADDR_W        = 32,               //  AXIL xADDR width
                     G_DATA_B        = 4,                //  AXIL xDATA byte width
                     G_WD_WDT        = 8,                //  watchdog timer len        
                     G_DATA_W        = G_DATA_B << 3,    //  AXIL xDATA width
-
         //  addresses of errors in regmap
 
-        reg [G_ADDR_W - 1 : 0]  G_WR_SLVERR_ADDR = 'h01,
-                                G_WR_DECERR_ADDR = 'h02,
-                                G_WR_WD_ERR_ADDR = 'h03,
-                                G_RD_SLVERR_ADDR = 'h04,
-                                G_RD_DECERR_ADDR = 'h05,
-                                G_RD_WD_ERR_ADDR = 'h06,
-                                G_RG_ST_ERR_ADDR = 'h07
-
+        reg [G_ADDR_W - 1 : 0]  G_WR_SLVERR_ADDR    = 'h01,
+                                G_WR_DECERR_ADDR    = 'h02,
+                                G_WR_WD_ERR_ADDR    = 'h03,
+                                G_RD_SLVERR_ADDR    = 'h04,
+                                G_RD_DECERR_ADDR    = 'h05,
+                                G_RD_WD_ERR_ADDR    = 'h06,
+                                G_RG_ST_ERR_ADDR    = 'h07
 
 ) (
 
@@ -66,9 +63,7 @@ module axil_fw #(
 
     assign s_axil_awready   =       m_axil_awready;        
     assign s_axil_wready    =       m_axil_wready;        
-    // assign s_axil_bvalid    =       m_axil_bvalid;        
     assign s_axil_arready   =       m_axil_arready;      
-    // assign s_axil_rvalid    =       m_axil_rvalid;        
     assign s_axil_rdata     =       m_axil_rdata;           
 
     assign s_axil_bresp     =   2'b00;                  //  set bresp always OK
@@ -122,10 +117,10 @@ module axil_fw #(
         //  use tmp. variable as watchdog max. value, if i_len is undefined, use default value = 50ns
 
          if (i_len > 0) 
-            C_WD_TIM = i_len / G_CLK;
+            C_WD_TIM = i_len;
 
         else if (i_len === 'z)
-            C_WD_TIM = 50 / G_CLK;
+            C_WD_TIM = 50;
 
         // counting write errors
 
@@ -133,9 +128,9 @@ module axil_fw #(
 
             case (q_bresp)
          
-                2'b10 : q_w_slverr_cnt <= q_w_slverr_cnt + 1;   // counting slave error
+                'b10 : q_w_slverr_cnt <= q_w_slverr_cnt + 1;   // counting slave error
 
-                2'b11 : q_w_decerr_cnt <= q_w_decerr_cnt + 1;   // counting decoder error
+                'b11 : q_w_decerr_cnt <= q_w_decerr_cnt + 1;   // counting decoder error
 
             endcase
 
@@ -149,9 +144,9 @@ module axil_fw #(
 
             case (q_rresp)
          
-                2'b10 : q_r_slverr_cnt <= q_r_slverr_cnt + 1;   // counting slave error
+                'b10 : q_r_slverr_cnt <= q_r_slverr_cnt + 1;   // counting slave error
 
-                2'b11 : q_r_decerr_cnt <= q_r_decerr_cnt + 1;   // counting decoder error
+                'b11 : q_r_decerr_cnt <= q_r_decerr_cnt + 1;   // counting decoder error
 
             endcase
             

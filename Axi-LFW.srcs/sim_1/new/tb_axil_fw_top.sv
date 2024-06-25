@@ -2,7 +2,7 @@
 
 module tb_axil_fw_top #(
 
-	int G_ADDR_W	= 8, 					// AXIL xADDR bit width
+	int G_ADDR_W	= 32, 					// AXIL xADDR bit width
 		G_DATA_B 	= 8, 					// AXIL xDATA number of bytes (B)
 		G_WD_WDT 	= 8, 
 	real dt = 1.0 						// clock period ns

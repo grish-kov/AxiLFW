@@ -2,15 +2,14 @@
 
 module fw_reg_map #(
     
-    int G_ADDR_W = 8,                   // AXIL xADDR bit width
-	    G_DATA_B = 4,                   // AXIL xDATA number of bytes (B)
-        G_DATA_W = G_DATA_B << 3,
+    int G_ADDR_W = 32,                   // AXIL xADDR bit width
+	    G_DATA_B = 4,                    // AXIL xDATA number of bytes (B)
+        G_DATA_W = G_DATA_B << 3,        //  AXIL xDATA width
 
     logic [G_ADDR_W - 1 : 0]    TST_ADDR1   = 'h01, 
                                 TST_ADDR2	= 'h02,
                                 TST_ADDR3   = 'h03,
-                                TST_ADDR4	= 'h04   
-
+                                TST_ADDR4	= 'h04
 )(
     input   logic   i_clk,
                     i_rst,
@@ -75,7 +74,7 @@ module fw_reg_map #(
 
         if (q_wdena) begin
 
-            q_w_err = (q_w_err) ? 2'b10 : 2'b00;
+            q_w_err <= (i_err) ? 2'b10 : 2'b00;
 
             case(WADDR)
 
@@ -113,7 +112,7 @@ module fw_reg_map #(
 
         if (q_rena) begin
 
-            q_r_err = (q_r_err) ? 2'b10 : 2'b00;
+            q_r_err <= (i_err) ? 2'b10 : 2'b00;
 
             case(RADDR)
 
