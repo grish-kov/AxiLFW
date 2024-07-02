@@ -106,7 +106,6 @@ module tb_axil_fw_top #(
 
 	task t_axil_m_rd;
 		input  t_xaddr ADDR;
-		output  t_xdata DATA;
 		begin
 		// read address
 			m_axil.arvalid = 1;
@@ -167,27 +166,27 @@ module tb_axil_fw_top #(
 		t_axil_m_wr(.ADDR(WRN_ADDR1), .DATA('h333));	#10;			// 5
 		t_axil_m_wr(.ADDR(WRN_ADDR2), .DATA('h333)); 	#10;			// 6
 
-		t_axil_m_rd(.ADDR(WRN_ADDR3), .DATA(q_rd_data)); 				#10;			// 7
-		t_axil_m_rd(.ADDR(TST_ADDR2), .DATA(q_rd_data)); 				#10;			// 8
-		t_axil_m_rd(.ADDR(WRN_ADDR3), .DATA(q_rd_data));				#10;			// 9
-		t_axil_m_rd(.ADDR(WRN_ADDR4), .DATA(q_rd_data)); 				#10;			// 10
+		t_axil_m_rd(.ADDR(WRN_ADDR3)); 				#10;			// 7
+		t_axil_m_rd(.ADDR(TST_ADDR2)); 				#10;			// 8
+		t_axil_m_rd(.ADDR(WRN_ADDR3));				#10;			// 9
+		t_axil_m_rd(.ADDR(WRN_ADDR4)); 				#10;			// 10
 
-		// i_err = 1;
-		// t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h214)); 	#10;			// 1
-		// t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h421)); 	#10;			// 2
+		i_err = 1;
+		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h214)); 	#10;			// 1
+		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h421)); 	#10;			// 2
 
-		// t_axil_m_rd(.ADDR(TST_ADDR3), .DATA(q_rd_data)); 				#10;			// 7
-		// t_axil_m_rd(.ADDR(TST_ADDR4), .DATA(q_rd_data)); 				#10;			// 8
+		t_axil_m_rd(.ADDR(TST_ADDR3)); 				#10;			// 7
+		t_axil_m_rd(.ADDR(TST_ADDR4)); 				#10;			// 8
 
-		// i_err = 0;
+		i_err = 0;
 
-		// i_hsk_ena [1] = 0;
+		i_hsk_ena [1] = 0;
 
-		// t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h123)); 	#50;			// 1
-		// t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h321));					// 2
-		// #20; i_hsk_ena[1] = 1;
+		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h123)); 	#50;			// 1
+		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h321));					// 2
+		#20; i_hsk_ena[1] = 1;
 		
-		// #15; 
+		#15; 
 
 		t_axil_ctrl_rd(.ADDR(WR_SLVERR_ADDR));		#10;			// 1 wr err
 		t_axil_ctrl_rd(.ADDR(WR_DECERR_ADDR));		#10;			// 2 wr err

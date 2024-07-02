@@ -11,7 +11,7 @@ module fw_reg_map #(
                                     TST_ADDR4	= 'h0c
 )(
     input   logic   i_clk,
-                    i_rst,
+                    aresetn,
                     i_err,
 
             reg [4 : 0] i_hsk_ena,
@@ -51,7 +51,7 @@ module fw_reg_map #(
 
     always_ff @(posedge i_clk) begin
 
-        if (i_rst == 'b0) begin
+        if (aresetn == 'b0) begin
 
             s_axil_awready  <= 1;
             s_axil_wready   <= 1;

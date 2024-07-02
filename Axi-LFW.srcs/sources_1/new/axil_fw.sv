@@ -3,13 +3,15 @@
 module axil_fw #(
 
     shortint        G_CNT_WDT       = 4,                //  counter width
-                    G_ADDR_W        = 32,               //  AXIL xADDR width
+                    G_ADDR_W        = 20,               //  AXIL xADDR width
                     G_DATA_W        = 32,               //  AXIL xDATA byte width
                     G_WD_WDT        = 8,                //  watchdog timer len        
     
     //  addresses of errors in regmap
 
     localparam shortint C_ADDR_W = 5,                   //  local xADDR width
+
+    shortint G_CTRL_ADDR_W = 5,
 
     reg [C_ADDR_W - 1 : 0]  G_WR_SLVERR_ADDR    = 'h00,
                             G_WR_DECERR_ADDR    = 'h04,
@@ -22,7 +24,7 @@ module axil_fw #(
 ) (
 
     input                   i_clk,                      //  clock
-                            i_rst,                      //  reset, active - high
+                            aresetn,                      //  reset, active - high
     [G_WD_WDT - 1 : 0]      i_len,                      //  WD counter max value
 
     //  axi-lite master ports
@@ -43,10 +45,10 @@ module axil_fw #(
 
     //  axi-lite control slave ports
 
-    output  reg  ctrl_axil_awready,  input   wire ctrl_axil_awvalid,  reg [G_ADDR_W - 1 : 0]  ctrl_axil_awaddr,   logic  [2 : 0]                    ctrl_axil_awprot,           //  write addr
+    output  reg  ctrl_axil_awready,  input   wire ctrl_axil_awvalid,  reg [G_CTRL_ADDR_W - 1 : 0]  ctrl_axil_awaddr,   logic  [2 : 0]                    ctrl_axil_awprot,           //  write addr
     output  reg  ctrl_axil_wready,   input   wire ctrl_axil_wvalid,   reg [G_DATA_W - 1 : 0]  ctrl_axil_wdata,    reg    [(G_DATA_W >> 3) - 1 : 0]    ctrl_axil_wstrb,            //  write data 
     input   wire ctrl_axil_bready,   output  reg  ctrl_axil_bvalid,   reg [1 : 0]             ctrl_axil_bresp,                                                                  //  write resp 
-    output  reg  ctrl_axil_arready,  input   wire ctrl_axil_arvalid,  reg [G_ADDR_W - 1 : 0]  ctrl_axil_araddr,   logic  [2 : 0]                    ctrl_axil_arprot,           //  read addr 
+    output  reg  ctrl_axil_arready,  input   wire ctrl_axil_arvalid,  reg [G_CTRL_ADDR_W - 1 : 0]  ctrl_axil_araddr,   logic  [2 : 0]                    ctrl_axil_arprot,           //  read addr 
     input   wire ctrl_axil_rready,   output  reg  ctrl_axil_rvalid,   reg [G_DATA_W - 1 : 0]  ctrl_axil_rdata,    reg    [1 : 0]                    ctrl_axil_rresp             //  read data & resp
 
     );
@@ -227,7 +229,7 @@ module axil_fw #(
 
     //  reset, active - high, reset all errors and counters
 
-        if (!i_rst) begin
+        if (!aresetn) begin
 
             q_w_slverr_cnt  <= 0;
             q_r_slverr_cnt  <= 0;
@@ -252,7 +254,7 @@ module axil_fw #(
         q_w_ena_set <= ((s_axil_awvalid & m_axil_awready) | (m_axil_bvalid & s_axil_bready));
         q_r_ena_set <= ((s_axil_arvalid & m_axil_arready) | (m_axil_rvalid & s_axil_rready));
 
-        if (!i_rst) begin
+        if (!aresetn) begin
 
             q_w_wd_cnt <= C_WD_TIM;
             q_r_wd_cnt <= C_WD_TIM;
@@ -289,7 +291,7 @@ module axil_fw #(
 
     always_ff @(posedge i_clk) begin 
 
-        if (i_rst == 'b0) begin
+        if (aresetn == 'b0) begin
 
             ctrl_axil_awready  <= 1;
             ctrl_axil_wready   <= 1;
