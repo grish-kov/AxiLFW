@@ -88,7 +88,7 @@ interface if_axil #( parameter int N = 8, A = 16, bit [0:4] PAYMASK = '1 ) ();
 
   // Check Parameters
   initial begin : check_param
-    if ( !(N inside {4, 8, 16}) )
+    if ( !(N inside {4, 8, 16, 32}) )
       $error("[%s %0d-%0d] Write and read data bus width (%0d) in AXI4-Lite interface must be equal to 4, 8 or 16 bytes. %m", "AXI", 3, 1, N);
     if ( A < 1 || A > 64 )
       $error("[%s %0d-%0d] Write and read address bus width (%0d) in AXI4-Lite interface must be greater than or equal to 1 and less than or equal to 64. %m", "AXI", 3, 2, A);
@@ -254,7 +254,7 @@ module axil_fw_top #(
     axil_fw u_fw (
 
         .i_clk                          (i_clk),                  //  input wire i_clk
-        .i_rst                          (i_rst),                  //  input wire i_rst
+        .aresetn                          (i_rst),                  //  input wire i_rst
         .i_len                          (i_len),
           
         .m_axil_awready                 (m_axil.awready),         //  input wire m_axil_awready
@@ -322,7 +322,7 @@ module axil_fw_top #(
     fw_reg_map u_rg_map(
 
         .i_clk              (i_clk),
-        .i_rst              (i_rst),
+        .aresetn              (i_rst),
         .i_err              (i_err),
         .i_hsk_ena          (i_hsk_ena),
 
