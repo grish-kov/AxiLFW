@@ -48,10 +48,10 @@ module tb_axil_fw_top #(
 			m_axil.wvalid  = '0;
 			m_axil.wdata   = '0;
 			m_axil.wstrb   = '0;
-			m_axil.bready  = '1;
+			m_axil.bready  = '0;
 			m_axil.arvalid = '0;
 			m_axil.araddr  = '0;
-			m_axil.rready  = '1;
+			m_axil.rready  = '0;
 		end
 	endtask : t_axil_m_init
 
@@ -62,10 +62,10 @@ module tb_axil_fw_top #(
 			ctrl_axil.wvalid  = '0;
 			ctrl_axil.wdata   = '0;
 			ctrl_axil.wstrb   = '0;
-			ctrl_axil.bready  = '1;
+			ctrl_axil.bready  = '0;
 			ctrl_axil.arvalid = '0;
 			ctrl_axil.araddr  = '0;
-			ctrl_axil.rready  = '1;
+			ctrl_axil.rready  = '0;
 		end
 	endtask : t_axil_ctrl_init
 
@@ -84,23 +84,13 @@ module tb_axil_fw_top #(
 		// write address
 			m_axil.awvalid = 1;
 			m_axil.awaddr = ADDR;
-			#dt;
-			m_axil.awvalid = 0;
-
-		// write data
-			#dt;
-			m_axil.wvalid = 1;
-
-			m_axil.wdata = DATA;
-			m_axil.wstrb = '1;
-			#dt;
-
-			m_axil.wvalid = 0;
+			`MACRO_AXIL_HSK(m_axil, awready, awvalid);
+			m_axil.wvalid 	=  1;			
+			m_axil.wdata 	=  DATA;
+			m_axil.wstrb 	= '1;
+			`MACRO_AXIL_HSK(m_axil, wready, wvalid);
 		// write response
-			#dt;
-			m_axil.bready = 0;
-			#dt;
-			m_axil.bready = 1;
+			`MACRO_AXIL_HSK(m_axil, bvalid, bready);
 		end
 	endtask : t_axil_m_wr
 
@@ -108,15 +98,13 @@ module tb_axil_fw_top #(
 		input  t_xaddr ADDR;
 		begin
 		// read address
-			m_axil.arvalid = 1;
 			m_axil.araddr = ADDR;
-			#dt;
-			m_axil.arvalid = 0;
+			`MACRO_AXIL_HSK(m_axil, arready, arvalid);
+			// #dt;
 		// read data
-			#dt;
-			m_axil.rready = 0;
-			#dt;
-			m_axil.rready = 1;
+			`MACRO_AXIL_HSK(m_axil, rvalid, rready);
+
+
 		
 		end
 	endtask : t_axil_m_rd	
@@ -156,17 +144,38 @@ module tb_axil_fw_top #(
 	localparam t_xaddr	RD_WD_ERR_ADDR	= 'h014;
 	localparam t_xaddr	RG_ST_ERR_ADDR	= 'h018;
 
+	// initial begin
+
+	// 	#20;
+	// 	i_hsk_ena[0] = 1;
+	// 	i_hsk_ena[1] = 1;
+
+	// end
+
 	initial begin
 
+		
 		t_axil_ctrl_init;
-		t_axil_m_init; #10;
+		t_axil_m_init; 
+		#10;
 
+		
+		i_hsk_ena[3] = 0;		
+		i_hsk_ena[1] = 0;
+		i_hsk_ena[2] = 0;
+		t_axil_m_wr(.ADDR(WRN_ADDR3), .DATA('h111)); 				#5;
+		
+		i_hsk_ena[0] = 1;		
+		i_hsk_ena[1] = 1;
 		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h111)); 	#10;			// 1
 		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h222)); 	#10;			// 2
 		t_axil_m_wr(.ADDR(WRN_ADDR1), .DATA('h333));	#10;			// 5
 		t_axil_m_wr(.ADDR(WRN_ADDR2), .DATA('h333)); 	#10;			// 6
 
 		t_axil_m_rd(.ADDR(WRN_ADDR3)); 				#10;			// 7
+		
+		i_hsk_ena[3] = 1;		
+
 		t_axil_m_rd(.ADDR(TST_ADDR2)); 				#10;			// 8
 		t_axil_m_rd(.ADDR(WRN_ADDR3));				#10;			// 9
 		t_axil_m_rd(.ADDR(WRN_ADDR4)); 				#10;			// 10
