@@ -51,105 +51,102 @@ module fw_reg_map #(
 
     always_ff @(posedge i_clk) begin
 
+        s_axil_awready <= i_hsk_ena[0];
+
+        if (s_axil_awready & s_axil_awvalid) begin
+
+            WADDR           <= s_axil_awaddr [G_ADDR_W - 1 : 0];
+            s_axil_awready  <= 0;
+            
+        end
+
+        s_axil_wready       <= i_hsk_ena [1];
+
+        if (s_axil_wready & s_axil_wvalid) begin
+            
+            q_wena          <= 1;
+            s_axil_bvalid   <= 1;
+            s_axil_wready   <= 0;
+            q_wr_data       <= s_axil_wdata;
+
+            q_w_err <= (!(WADDR inside {TST_ADDR1, TST_ADDR2, TST_ADDR3, TST_ADDR4})) ? 'b11 : ((i_err) ? 'b10 : 'b00); 
+
+
+        end
+
+        if (q_wena) begin
+
+            case(WADDR)
+
+                TST_ADDR1 : TST_ARR [0] <= q_wr_data;
+
+                TST_ADDR2 : TST_ARR [1] <= q_wr_data;
+
+                TST_ADDR3 : TST_ARR [2] <= q_wr_data;
+                    
+                TST_ADDR4 : TST_ARR [3] <= q_wr_data;
+
+            endcase
+            
+            q_wena          <= 0;
+
+        end
+
+        if (s_axil_bvalid & s_axil_bready & i_hsk_ena [2]) begin
+
+            s_axil_bvalid   <= 0;
+
+        end
+
+        s_axil_arready <=  i_hsk_ena [3];
+
+        if (s_axil_arready & s_axil_arvalid) begin
+
+            RADDR           <= s_axil_araddr [G_ADDR_W - 1 : 0];
+            s_axil_arready  <= 0;
+            q_rena          <= 1;
+            
+        end
+
+        if (q_rena) begin
+
+            s_axil_rvalid   <= 1;
+
+            q_r_err <= (!(RADDR inside {TST_ADDR1, TST_ADDR2, TST_ADDR3, TST_ADDR4})) ? 'b11 : ((i_err) ? 'b10 : 'b00); 
+
+            case(RADDR)
+
+                TST_ADDR1 : q_rd_data <= TST_ARR [0];
+
+                TST_ADDR2 : q_rd_data <= TST_ARR [1];
+
+                TST_ADDR3 : q_rd_data <= TST_ARR [2];
+                    
+                TST_ADDR4 : q_rd_data <= TST_ARR [3];
+
+                default : q_rd_data <= 'h404;
+
+            endcase 
+
+            q_rena          <= 0;
+
+        end
+
+        if (s_axil_rvalid & s_axil_rready & i_hsk_ena [4]) begin
+
+            s_axil_rvalid   <= 0;
+
+        end
+
         if (aresetn == 'b0) begin
 
-            s_axil_awready  <= 1;
-            s_axil_wready   <= 1;
-            s_axil_arready  <= 1;
+            s_axil_awready  <= 0;
+            s_axil_wready   <= 0;
+            s_axil_arready  <= 0;
             s_axil_bvalid   <= 0;
             s_axil_rvalid   <= 0;
 
         end 
-        else begin
-
-            s_axil_awready <= 1;
-
-            if (s_axil_awready & s_axil_awvalid & i_hsk_ena [0]) begin
-
-                WADDR           <= s_axil_awaddr [G_ADDR_W - 1 : 0];
-                s_axil_awready  <= 0;
-                
-            end
-
-            s_axil_wready       <= 1;
-
-            if (s_axil_wready & s_axil_wvalid & i_hsk_ena [1]) begin
-                
-                q_wena          <= 1;
-                s_axil_bvalid   <= 1;
-                s_axil_wready   <= 0;
-                q_wr_data       <= s_axil_wdata;
-
-                q_w_err <= (!(WADDR inside {TST_ADDR1, TST_ADDR2, TST_ADDR3, TST_ADDR4})) ? 'b11 : ((i_err) ? 'b10 : 'b00); 
-
-
-            end
-
-            if (q_wena) begin
-
-                case(WADDR)
-
-                    TST_ADDR1 : TST_ARR [0] <= q_wr_data;
-
-                    TST_ADDR2 : TST_ARR [1] <= q_wr_data;
-
-                    TST_ADDR3 : TST_ARR [2] <= q_wr_data;
-                        
-                    TST_ADDR4 : TST_ARR [3] <= q_wr_data;
-
-                endcase
-                
-                q_wena          <= 0;
-
-            end
-
-            if (s_axil_bvalid & s_axil_bready & i_hsk_ena [2]) begin
-
-                s_axil_bvalid   <= 0;
-
-            end
-
-            s_axil_arready <= 1;
-
-            if (s_axil_arready & s_axil_arvalid & i_hsk_ena [3]) begin
-
-                RADDR           <= s_axil_araddr [G_ADDR_W - 1 : 0];
-                s_axil_arready  <= 0;
-                q_rena          <= 1;
-                
-            end
-
-            if (q_rena) begin
-
-                s_axil_rvalid   <= 1;
-
-                q_r_err <= (!(RADDR inside {TST_ADDR1, TST_ADDR2, TST_ADDR3, TST_ADDR4})) ? 'b11 : ((i_err) ? 'b10 : 'b00); 
-
-                case(RADDR)
-
-                    TST_ADDR1 : q_rd_data <= TST_ARR [0];
-
-                    TST_ADDR2 : q_rd_data <= TST_ARR [1];
-
-                    TST_ADDR3 : q_rd_data <= TST_ARR [2];
-                        
-                    TST_ADDR4 : q_rd_data <= TST_ARR [3];
-
-                    default : q_rd_data <= 'h404;
-
-                endcase 
-
-                q_rena          <= 0;
-
-            end
-
-            if (s_axil_rvalid & s_axil_rready & i_hsk_ena [4]) begin
-
-                s_axil_rvalid   <= 0;
-
-            end
-
-        end
 
     end
 
