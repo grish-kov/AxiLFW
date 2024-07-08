@@ -251,6 +251,22 @@ module axil_fw_top #(
 
       ) m_axil ();
 
+      // assign m_axil.awvalid =  s_axil.awvalid;
+      // assign s_axil.awready =  m_axil.awready ;
+			// assign m_axil.awaddr  =  s_axil.awaddr ;
+      // assign s_axil.wready  =  m_axil.wready ;
+			// assign m_axil.wvalid  =  s_axil.wvalid ;
+			// assign m_axil.wdata   =  s_axil.wdata ;
+			// assign m_axil.wstrb   =  s_axil.wstrb ;
+      // assign s_axil.bvalid  =  m_axil.bvalid ;
+			// assign m_axil.bready  =  s_axil.bready ;
+			// assign m_axil.arvalid =  s_axil.arvalid ;
+      // assign s_axil.arready =  m_axil.arready ;
+			// assign m_axil.araddr  =  s_axil.araddr ;
+      // assign m_axil.rvalid  =  s_axil.rvalid ;
+			// assign s_axil.rready  =  m_axil.rready ;
+			// assign s_axil.rdata   =  m_axil.rdata ;
+
     axil_fw u_fw (
 
         .i_clk                          (i_clk),                  //  input wire i_clk
@@ -319,32 +335,32 @@ module axil_fw_top #(
         
 );
 
-    fw_reg_map u_rg_map(
+    myip_0 u_rg_map(
 
-        .i_clk              (i_clk),
-        .aresetn              (i_rst),
+        .s00_axi_aclk(i_clk),      
+        .s00_axi_aresetn(i_rst),
         .i_err              (i_err),
         .i_hsk_ena          (i_hsk_ena),
 
-        .s_axil_awready                 (m_axil.awready),         //  output wire s_axil_awready
-        .s_axil_awvalid                 (m_axil.awvalid),         //  input wire s_axil_awvalid
-        .s_axil_awaddr                  (m_axil.awaddr),          //  input wire [7 : 0] s_axil_awaddr
-        .s_axil_awprot                  (m_axil.awprot),          //  input wire [2 : 0] s_axil_awprot
-        .s_axil_wready                  (m_axil.wready),          //  output wire s_axil_wready
-        .s_axil_wvalid                  (m_axil.wvalid),          //  input wire s_axil_wvalid
-        .s_axil_wdata                   (m_axil.wdata),           //  input wire [63 : 0] s_axil_wdata
-        .s_axil_wstrb                   (m_axil.wstrb),           //  input wire [7 : 0] s_axil_wstrb
-        .s_axil_bready                  (m_axil.bready),          //  input wire s_axil_bready
-        .s_axil_bvalid                  (m_axil.bvalid),          //  output wire s_axil_bvalid
-        .s_axil_bresp                   (m_axil.bresp),           //  output wire [1 : 0] s_axil_bresp
-        .s_axil_arready                 (m_axil.arready),         //  output wire s_axil_arready
-        .s_axil_arvalid                 (m_axil.arvalid),         //  input wire s_axil_arvalid
-        .s_axil_araddr                  (m_axil.araddr),          //  input wire [7 : 0] s_axil_araddr
-        .s_axil_arprot                  (m_axil.arprot),          //  input wire [2 : 0] s_axil_arprot
-        .s_axil_rready                  (m_axil.rready),          //  input wire s_axil_rready
-        .s_axil_rvalid                  (m_axil.rvalid),          //  output wire s_axil_rvalid
-        .s_axil_rdata                   (m_axil.rdata),           //  output wire [63 : 0] s_axil_rdata
-        .s_axil_rresp                   (m_axil.rresp)            //  output wire [1 : 0] s_axil_rresp
+        .s00_axi_awready                 (m_axil.awready),         //  output wire s_axil_awready
+        .s00_axi_awvalid                 (m_axil.awvalid),         //  input wire s_axil_awvalid
+        .s00_axi_awaddr                  (m_axil.awaddr),          //  input wire [7 : 0] s_axil_awaddr
+        .s00_axi_awprot                  (m_axil.awprot),          //  input wire [2 : 0] s_axil_awprot
+        .s00_axi_wready                  (m_axil.wready),          //  output wire s_axil_wready
+        .s00_axi_wvalid                  (m_axil.wvalid),          //  input wire s_axil_wvalid
+        .s00_axi_wdata                   (m_axil.wdata),           //  input wire [63 : 0] s_axil_wdata
+        .s00_axi_wstrb                   (m_axil.wstrb),           //  input wire [7 : 0] s_axil_wstrb
+        .s00_axi_bready                  (m_axil.bready),          //  input wire s_axil_bready
+        .s00_axi_bvalid                  (m_axil.bvalid),          //  output wire s_axil_bvalid
+        .s00_axi_bresp                   (m_axil.bresp),           //  output wire [1 : 0] s_axil_bresp
+        .s00_axi_arready                 (m_axil.arready),         //  output wire s_axil_arready
+        .s00_axi_arvalid                 (m_axil.arvalid),         //  input wire s_axil_arvalid
+        .s00_axi_araddr                  (m_axil.araddr),          //  input wire [7 : 0] s_axil_araddr
+        .s00_axi_arprot                  (m_axil.arprot),          //  input wire [2 : 0] s_axil_arprot
+        .s00_axi_rready                  (m_axil.rready),          //  input wire s_axil_rready
+        .s00_axi_rvalid                  (m_axil.rvalid),          //  output wire s_axil_rvalid
+        .s00_axi_rdata                   (m_axil.rdata),           //  output wire [63 : 0] s_axil_rdata
+        .s00_axi_rresp                   (m_axil.rresp)            //  output wire [1 : 0] s_axil_rresp
 
     );
 

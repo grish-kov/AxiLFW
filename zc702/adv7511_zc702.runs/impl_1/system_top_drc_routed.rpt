@@ -1,0 +1,263 @@
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
+| Date         : Mon Jul  8 17:04:05 2024
+| Host         : Griffon running 64-bit Ubuntu 22.04.4 LTS
+| Command      : report_drc -file system_top_drc_routed.rpt -pb system_top_drc_routed.pb -rpx system_top_drc_routed.rpx
+| Design       : system_top
+| Device       : xc7z020clg484-1
+| Speed File   : -1
+| Design State : Fully Routed
+------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max violations: <unlimited>
+             Violations found: 41
++-----------+----------+-------------------------------------------------------------------+------------+
+| Rule      | Severity | Description                                                       | Violations |
++-----------+----------+-------------------------------------------------------------------+------------+
+| DPIP-1    | Warning  | Input pipelining                                                  | 19         |
+| DPOP-1    | Warning  | PREG Output pipelining                                            | 1          |
+| PDCN-1569 | Warning  | LUT equation term check                                           | 3          |
+| PDRC-153  | Warning  | Gated clock check                                                 | 8          |
+| PLIO-3    | Warning  | Placement Constraints Check for IO constraints                    | 1          |
+| RTSTAT-10 | Warning  | No routable loads                                                 | 1          |
+| AVAL-4    | Advisory | enum_USE_DPORT_FALSE_enum_DREG_ADREG_0_connects_CED_CEAD_RSTD_GND | 4          |
+| REQP-165  | Advisory | writefirst                                                        | 4          |
++-----------+----------+-------------------------------------------------------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+DPIP-1#1 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/axi_hdmi_core/inst/i_tx_core/i_csc_RGB2CrYCb/j_csc_1_Cb/s_data_1_reg input i_system_wrapper/system_i/axi_hdmi_core/inst/i_tx_core/i_csc_RGB2CrYCb/j_csc_1_Cb/s_data_1_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#2 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/axi_hdmi_core/inst/i_tx_core/i_csc_RGB2CrYCb/j_csc_1_Cr/s_data_1_reg input i_system_wrapper/system_i/axi_hdmi_core/inst/i_tx_core/i_csc_RGB2CrYCb/j_csc_1_Cr/s_data_1_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#3 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/axi_hdmi_core/inst/i_tx_core/i_csc_RGB2CrYCb/j_csc_1_Y/s_data_1_reg input i_system_wrapper/system_i/axi_hdmi_core/inst/i_tx_core/i_csc_RGB2CrYCb/j_csc_1_Y/s_data_1_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#4 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_ampc/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_ampc/q_P_reg/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#5 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_ampc/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_ampc/q_P_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#6 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_amps/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_amps/q_P_reg/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#7 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_amps/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_amps/q_P_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#8 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_ampc/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_ampc/q_P_reg/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#9 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_ampc/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_ampc/q_P_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#10 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_amps/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_amps/q_P_reg/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#11 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_amps/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_amps/q_P_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#12 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_ampc/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_ampc/q_P_reg/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#13 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_ampc/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_ampc/q_P_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#14 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_amps/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_amps/q_P_reg/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#15 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_amps/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_amps/q_P_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#16 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_ampc/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_ampc/q_P_reg/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#17 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_ampc/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_ampc/q_P_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#18 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_amps/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_amps/q_P_reg/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-1#19 Warning
+Input pipelining  
+DSP i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_amps/q_P_reg input i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_amps/q_P_reg/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPOP-1#1 Warning
+PREG Output pipelining  
+DSP i_system_wrapper/system_i/pow_0/inst/q_P_reg output i_system_wrapper/system_i/pow_0/inst/q_P_reg/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+PDCN-1569#1 Warning
+LUT equation term check  
+Used physical LUT pin 'A1' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I0) is not included in the LUT equation: 'O5=(A2*A5)+(A2*(~A5)*(~A4))+((~A2))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Related violations: <none>
+
+PDCN-1569#2 Warning
+LUT equation term check  
+Used physical LUT pin 'A2' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1/I0) is not included in the LUT equation: 'O6=(A6+~A6)*((A5))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Related violations: <none>
+
+PDCN-1569#3 Warning
+LUT equation term check  
+Used physical LUT pin 'A3' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I1) is not included in the LUT equation: 'O5=(A2*A5)+(A2*(~A5)*(~A4))+((~A2))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Related violations: <none>
+
+PDRC-153#1 Warning
+Gated clock check  
+Net i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_acc_c/o_stm_dat[15]_i_1_n_0 is a gated clock net sourced by a combinational pin i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_acc_c/o_stm_dat[15]_i_1/O, cell i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_acc_c/o_stm_dat[15]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#2 Warning
+Gated clock check  
+Net i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_acc_s/o_stm_dat[15]_i_1_n_0 is a gated clock net sourced by a combinational pin i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_acc_s/o_stm_dat[15]_i_1/O, cell i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[0].u_acc_s/o_stm_dat[15]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#3 Warning
+Gated clock check  
+Net i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_acc_c/o_stm_dat[15]_i_1_n_0 is a gated clock net sourced by a combinational pin i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_acc_c/o_stm_dat[15]_i_1/O, cell i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_acc_c/o_stm_dat[15]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#4 Warning
+Gated clock check  
+Net i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_acc_s/o_stm_dat[15]_i_1_n_0 is a gated clock net sourced by a combinational pin i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_acc_s/o_stm_dat[15]_i_1/O, cell i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[1].u_acc_s/o_stm_dat[15]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#5 Warning
+Gated clock check  
+Net i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_acc_c/o_stm_dat[15]_i_1_n_0 is a gated clock net sourced by a combinational pin i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_acc_c/o_stm_dat[15]_i_1/O, cell i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_acc_c/o_stm_dat[15]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#6 Warning
+Gated clock check  
+Net i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_acc_s/o_stm_dat[15]_i_1_n_0 is a gated clock net sourced by a combinational pin i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_acc_s/o_stm_dat[15]_i_1/O, cell i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[2].u_acc_s/o_stm_dat[15]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#7 Warning
+Gated clock check  
+Net i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_acc_c/o_stm_dat[15]_i_1_n_0 is a gated clock net sourced by a combinational pin i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_acc_c/o_stm_dat[15]_i_1/O, cell i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_acc_c/o_stm_dat[15]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#8 Warning
+Gated clock check  
+Net i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_acc_s/o_stm_dat[15]_i_1_n_0 is a gated clock net sourced by a combinational pin i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_acc_s/o_stm_dat[15]_i_1/O, cell i_system_wrapper/system_i/signal_gen_top_0/inst/u_gen/genblk1[3].u_acc_s/o_stm_dat[15]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PLIO-3#1 Warning
+Placement Constraints Check for IO constraints  
+Partially locked IO Bus is found. Following components of the IO Bus gpio_bd[15:0] are not locked:  gpio_bd[15] gpio_bd[14] gpio_bd[13] gpio_bd[12] gpio_bd[11] gpio_bd[10] gpio_bd[9] gpio_bd[8]
+Related violations: <none>
+
+RTSTAT-10#1 Warning
+No routable loads  
+37 net(s) have no routable loads. The problem bus(es) and/or net(s) are dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD1/ctl_reg_en_2[1],
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gr1.gr1_int.rfwft/aempty_fwft_i,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_RD/U_RD_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_rdfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwhf.whf/overflow,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwas.wsts/ram_full_i,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwhf.whf/overflow,
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD6_WR/U_WR_FIFO/SUBCORE_FIFO.xsdbm_v3_0_0_wrfifo_inst/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/rd_rst_reg[0],
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD7_CTL/ctl_reg[2:0],
+dbg_hub/inst/BSCANID.u_xsdbm_id/CORE_XSDB.UUT_MASTER/U_ICON_INTERFACE/U_CMD7_CTL/ctl_reg_en_2[1],
+dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_inst/s_bscan_tms,
+dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_capture[0],
+dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_drck[0],
+dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/m_bscan_runtest[0],
+i_system_wrapper/system_i/system_ila_0/inst/ila_lib/inst/ila_core_inst/u_ila_regs/U_XSDB_SLAVE/s_daddr_o[13],
+i_system_wrapper/system_i/system_ila_3/inst/ila_lib/inst/ila_core_inst/u_ila_regs/U_XSDB_SLAVE/s_daddr_o[13]
+ (the first 15 of 35 listed).
+Related violations: <none>
+
+AVAL-4#1 Advisory
+enum_USE_DPORT_FALSE_enum_DREG_ADREG_0_connects_CED_CEAD_RSTD_GND  
+i_system_wrapper/system_i/FFT_Top_0/inst/FFT/fft[3].FFT_block/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/four_mult_structure.use_dsp.i_dsp/re_im/use_DSP48.qDSP[0].appDSP[0].bppDSP[0].u_l[0].use_dsp48e1.dsp: DSP48E1 is not using the D port (USE_DPORT = FALSE). For improved power characteristics, set DREG and ADREG to '1', tie CED, CEAD, and RSTD to logic '0'.
+Related violations: <none>
+
+AVAL-4#2 Advisory
+enum_USE_DPORT_FALSE_enum_DREG_ADREG_0_connects_CED_CEAD_RSTD_GND  
+i_system_wrapper/system_i/FFT_Top_0/inst/FFT/fft[3].FFT_block/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/four_mult_structure.use_dsp.i_dsp/re_im/use_DSP48.qDSP[0].appDSP[0].bppDSP[0].u_l[1].use_dsp48e1.dsp: DSP48E1 is not using the D port (USE_DPORT = FALSE). For improved power characteristics, set DREG and ADREG to '1', tie CED, CEAD, and RSTD to logic '0'.
+Related violations: <none>
+
+AVAL-4#3 Advisory
+enum_USE_DPORT_FALSE_enum_DREG_ADREG_0_connects_CED_CEAD_RSTD_GND  
+i_system_wrapper/system_i/FFT_Top_0/inst/FFT/fft[3].FFT_block/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/four_mult_structure.use_dsp.i_dsp/re_im/use_DSP48.qDSP[1].appDSP[0].bppDSP[0].u_l[0].use_dsp48e1.dsp: DSP48E1 is not using the D port (USE_DPORT = FALSE). For improved power characteristics, set DREG and ADREG to '1', tie CED, CEAD, and RSTD to logic '0'.
+Related violations: <none>
+
+AVAL-4#4 Advisory
+enum_USE_DPORT_FALSE_enum_DREG_ADREG_0_connects_CED_CEAD_RSTD_GND  
+i_system_wrapper/system_i/FFT_Top_0/inst/FFT/fft[3].FFT_block/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[3].natural_order_input.PE/has_TW_mult.MULT/i_cmpy/four_mult_structure.use_dsp.i_dsp/re_im/use_DSP48.qDSP[1].appDSP[0].bppDSP[0].u_l[1].use_dsp48e1.dsp: DSP48E1 is not using the D port (USE_DPORT = FALSE). For improved power characteristics, set DREG and ADREG to '1', tie CED, CEAD, and RSTD to logic '0'.
+Related violations: <none>
+
+REQP-165#1 Advisory
+writefirst  
+Synchronous clocking is detected for BRAM (i_system_wrapper/system_i/FFT_Top_0/inst/FFT/fft[3].FFT_block/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/FB_1.BF_1/MEM/blk_ram.use_bram_only.mem/depths_3to9.ram_loop[0].use_RAMB18.SDP_RAMB18E1_36x512) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+REQP-165#2 Advisory
+writefirst  
+Synchronous clocking is detected for BRAM (i_system_wrapper/system_i/FFT_Top_0/inst/FFT/fft[3].FFT_block/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[0].natural_order_input.PE/hasbf2.FB_2.BF_2/MEM/blk_ram.use_bram_only.mem/depths_3to9.ram_loop[0].use_RAMB18.SDP_RAMB18E1_36x512) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+REQP-165#3 Advisory
+writefirst  
+Synchronous clocking is detected for BRAM (i_system_wrapper/system_i/FFT_Top_0/inst/FFT/fft[3].FFT_block/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[1].natural_order_input.PE/FB_1.BF_1/MEM/blk_ram.use_bram_only.mem/depths_3to9.ram_loop[0].use_RAMB18.SDP_RAMB18E1_36x512) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+REQP-165#4 Advisory
+writefirst  
+Synchronous clocking is detected for BRAM (i_system_wrapper/system_i/FFT_Top_0/inst/FFT/fft[3].FFT_block/U0/i_synth/xfft_inst/non_floating_point.arch_d.xfft_inst/pe_gen[1].natural_order_input.PE/FB_1.BF_1/MEM/blk_ram.use_bram_only.mem/depths_3to9.ram_loop[1].use_RAMB18.SDP_RAMB18E1_36x512) in SDP mode with WRITE_FIRST write-mode. This is the preferred mode for best power characteristics, however it may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<Runs Version="1" Minor="0">
+	<Run Id="system_sys_ps7_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_sys_ps7_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_axi_iic_main_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_axi_iic_main_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_sys_rstgen_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_sys_rstgen_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_sys_200m_rstgen_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_sys_200m_rstgen_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_axi_hdmi_clkgen_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_axi_hdmi_clkgen_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_axi_hdmi_core_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_axi_hdmi_core_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_axi_hdmi_dma_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_axi_hdmi_dma_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_sys_audio_clkgen_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_sys_audio_clkgen_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_axi_spdif_tx_core_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_axi_spdif_tx_core_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_axi_sysid_0_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_axi_sysid_0_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_rom_sys_0_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_rom_sys_0_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_xbar_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_xbar_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_axi_hp0_interconnect_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_axi_hp0_interconnect_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="system_auto_pc_0_synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/system_auto_pc_0_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="synth_1" LaunchDir="/home/user/Projects/OEM/adi/hdl/projects/adv7511/zc702/adv7511_zc702.runs/synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado">
+		<Parent Id="system_sys_ps7_0_synth_1"/>
+		<Parent Id="system_axi_iic_main_0_synth_1"/>
+		<Parent Id="system_sys_rstgen_0_synth_1"/>
+		<Parent Id="system_sys_200m_rstgen_0_synth_1"/>
+		<Parent Id="system_axi_hdmi_clkgen_0_synth_1"/>
+		<Parent Id="system_axi_hdmi_core_0_synth_1"/>
+		<Parent Id="system_axi_hdmi_dma_0_synth_1"/>
+		<Parent Id="system_sys_audio_clkgen_0_synth_1"/>
+		<Parent Id="system_axi_spdif_tx_core_0_synth_1"/>
+		<Parent Id="system_axi_sysid_0_0_synth_1"/>
+		<Parent Id="system_rom_sys_0_0_synth_1"/>
+		<Parent Id="system_xbar_0_synth_1"/>
+		<Parent Id="system_axi_hp0_interconnect_0_synth_1"/>
+		<Parent Id="system_auto_pc_0_synth_1"/>
+	</Run>
+	<Parameters>
+		<Parameter Name="runs.monitorLSFJobs" Val="true" Type="bool"/>
+		<Parameter Name="runs.enableClusterConf" Val="true" Type="bool"/>
+	</Parameters>
+</Runs>
+

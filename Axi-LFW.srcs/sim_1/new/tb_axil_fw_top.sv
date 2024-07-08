@@ -82,15 +82,20 @@ module tb_axil_fw_top #(
 		begin
 
 		// write address
-			m_axil.awvalid = 1;
-			m_axil.awaddr = ADDR;
-			`MACRO_AXIL_HSK(m_axil, awready, awvalid);
-			m_axil.wvalid 	=  1;			
+			m_axil.awaddr 	= ADDR;
 			m_axil.wdata 	=  DATA;
 			m_axil.wstrb 	= '1;
+			`MACRO_AXIL_HSK(m_axil, awready, awvalid);
 			`MACRO_AXIL_HSK(m_axil, wready, wvalid);
-		// write response
 			`MACRO_AXIL_HSK(m_axil, bvalid, bready);
+
+			
+
+			// `MACRO_AXIL_HSK(m_axil, awready, awvalid);
+			// m_axil.wvalid 	=  1;
+			// `MACRO_AXIL_HSK(m_axil, wready, wvalid);
+		// write response
+			// `MACRO_AXIL_HSK(m_axil, bvalid, bready);
 		end
 	endtask : t_axil_m_wr
 
@@ -113,16 +118,10 @@ module tb_axil_fw_top #(
 		input  t_xaddr ADDR;
 		begin
 		// read address
-			ctrl_axil.arvalid = 1;
+			`MACRO_AXIL_HSK(ctrl_axil, arready, arvalid);
 			ctrl_axil.araddr = ADDR;
-			#dt;
-			ctrl_axil.arvalid = 0;
 		// read data
-
-			#dt;
-			ctrl_axil.rready = 0;
-			#dt;
-			ctrl_axil.rready = 1;
+		`MACRO_AXIL_HSK(ctrl_axil, rvalid, rready);
 
 		end
 	endtask : t_axil_ctrl_rd	
@@ -144,71 +143,138 @@ module tb_axil_fw_top #(
 	localparam t_xaddr	RD_WD_ERR_ADDR	= 'h014;
 	localparam t_xaddr	RG_ST_ERR_ADDR	= 'h018;
 
-	// initial begin
+	initial begin
 
-	// 	#20;
-	// 	i_hsk_ena[0] = 1;
-	// 	i_hsk_ena[1] = 1;
+		/* 
+		4'b0000
+		4'b0100
+		4'b1000
+		4'b1100 
+		*/
 
-	// end
+		t_axil_m_init; 
+		// i_hsk_ena = '0;
+		#10;
+		m_axil.awaddr 	= 4'b0000;
+		m_axil.wdata 	=  'h123;
+		m_axil.wstrb 	= '1;
+		`MACRO_AXIL_HSK(m_axil, awready, awvalid);
+		#10;
+		
+		m_axil.awaddr 	= 4'b0100;
+		m_axil.wdata 	=  'h321;
+		m_axil.wstrb 	= '1;
+		`MACRO_AXIL_HSK(m_axil, awready, awvalid);
+		
+		#10;
+		m_axil.awaddr 	= 4'b1000;
+		m_axil.wdata 	=  'h333;
+		m_axil.wstrb 	= '1;
+		// i_hsk_ena = '1;
+		`MACRO_AXIL_HSK(m_axil, awready, awvalid);
+		#10;
+		m_axil.awaddr 	= 4'b1100;
+		m_axil.wdata 	=  'h555;
+		m_axil.wstrb 	= '1;
+		`MACRO_AXIL_HSK(m_axil, awready, awvalid);
+
+		#10;
+		m_axil.araddr 	= 4'b1100;
+		`MACRO_AXIL_HSK(m_axil, arready, arvalid);
+		#10;
+		m_axil.araddr 	= 4'b1000;
+		`MACRO_AXIL_HSK(m_axil, arready, arvalid);
+		#10;
+		m_axil.araddr 	= 4'b0100;
+		`MACRO_AXIL_HSK(m_axil, arready, arvalid);
+	end
 
 	initial begin
 
-		
-		t_axil_ctrl_init;
-		t_axil_m_init; 
 		#10;
-
-		
-		i_hsk_ena[3] = 0;		
-		i_hsk_ena[1] = 0;
-		i_hsk_ena[2] = 0;
-		t_axil_m_wr(.ADDR(WRN_ADDR3), .DATA('h111)); 				#5;
-		
-		i_hsk_ena[0] = 1;		
-		i_hsk_ena[1] = 1;
-		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h111)); 	#10;			// 1
-		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h222)); 	#10;			// 2
-		t_axil_m_wr(.ADDR(WRN_ADDR1), .DATA('h333));	#10;			// 5
-		t_axil_m_wr(.ADDR(WRN_ADDR2), .DATA('h333)); 	#10;			// 6
-
-		t_axil_m_rd(.ADDR(WRN_ADDR3)); 				#10;			// 7
-		
-		i_hsk_ena[3] = 1;		
-
-		t_axil_m_rd(.ADDR(TST_ADDR2)); 				#10;			// 8
-		t_axil_m_rd(.ADDR(WRN_ADDR3));				#10;			// 9
-		t_axil_m_rd(.ADDR(WRN_ADDR4)); 				#10;			// 10
-
-		i_err = 1;
-		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h214)); 	#10;			// 1
-		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h421)); 	#10;			// 2
-
-		t_axil_m_rd(.ADDR(TST_ADDR3)); 				#10;			// 7
-		t_axil_m_rd(.ADDR(TST_ADDR4)); 				#10;			// 8
-
-		i_err = 0;
-
-		i_hsk_ena [1] = 0;
-
-		t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h123)); 	#50;			// 1
-		t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h321));					// 2
-		#20; i_hsk_ena[1] = 1;
-		
-		#15; 
-
-		t_axil_ctrl_rd(.ADDR(WR_SLVERR_ADDR));		#10;			// 1 wr err
-		t_axil_ctrl_rd(.ADDR(WR_DECERR_ADDR));		#10;			// 2 wr err
-		t_axil_ctrl_rd(.ADDR(WR_WD_ERR_ADDR));		#10;			// 3 wr err
-		t_axil_ctrl_rd(.ADDR(RD_SLVERR_ADDR));		#10;			// 4 rd err
-		t_axil_ctrl_rd(.ADDR(RD_DECERR_ADDR));		#10;			// 5 rd err
-		t_axil_ctrl_rd(.ADDR(RD_WD_ERR_ADDR));		#10;			// 6 rd err
-		t_axil_ctrl_rd(.ADDR(RG_ST_ERR_ADDR));		#10;			// 6 all err
-
-		#15;
-
+		`MACRO_AXIL_HSK(m_axil, wready, wvalid);
+		#10;
+		`MACRO_AXIL_HSK(m_axil, wready, wvalid);
+		#10;
+		`MACRO_AXIL_HSK(m_axil, wready, wvalid);
+		#10;
+		`MACRO_AXIL_HSK(m_axil, wready, wvalid);
 
 	end
+
+	initial begin
+
+		#10;
+		`MACRO_AXIL_HSK(m_axil, bvalid, bready);
+		#10;
+		`MACRO_AXIL_HSK(m_axil, bvalid, bready);
+		#10;
+		`MACRO_AXIL_HSK(m_axil, bvalid, bready);
+		#10;
+		`MACRO_AXIL_HSK(m_axil, bvalid, bready);
+		#10;
+		`MACRO_AXIL_HSK(m_axil, rvalid, rready);
+		#10;
+		`MACRO_AXIL_HSK(m_axil, rvalid, rready);
+		#10;
+		`MACRO_AXIL_HSK(m_axil, rvalid, rready);
+
+	end
+
+	// initial begin
+
+		
+	// 	t_axil_ctrl_init;
+	// 	t_axil_m_init; 
+	// 	#10;
+
+		
+	// 	// i_hsk_ena[3] = 0;		
+	// 	// i_hsk_ena[0] = 0;
+	// 	// i_hsk_ena[1] = 0;
+	// 	t_axil_m_wr(.ADDR(WRN_ADDR3), .DATA('h111)); 				#10;	
+	// 	t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h111)); 	#10;			// 1
+	// 	t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h222)); 	#10;			// 2
+	// 	t_axil_m_wr(.ADDR(WRN_ADDR1), .DATA('h333));	#10;			// 5
+	// 	t_axil_m_wr(.ADDR(WRN_ADDR2), .DATA('h333)); 	#10;			// 6
+
+	// 	t_axil_m_rd(.ADDR(WRN_ADDR3)); 				#10;			// 7
+		
+	// 	// i_hsk_ena[3] = 1;		
+
+	// 	t_axil_m_rd(.ADDR(TST_ADDR2)); 				#10;			// 8
+	// 	t_axil_m_rd(.ADDR(WRN_ADDR3));				#10;			// 9
+	// 	t_axil_m_rd(.ADDR(WRN_ADDR4)); 				#10;			// 10
+
+	// 	// i_err = 1;
+	// 	t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h214)); 	#10;			// 1
+	// 	t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h421)); 	#10;			// 2
+
+	// 	t_axil_m_rd(.ADDR(TST_ADDR3)); 				#10;			// 7
+	// 	t_axil_m_rd(.ADDR(TST_ADDR4)); 				#10;			// 8
+
+	// 	// i_err = 0;
+
+	// 	// i_hsk_ena [1] = 0;
+
+	// 	t_axil_m_wr(.ADDR(TST_ADDR1), .DATA('h123)); 	#50;			// 1
+	// 	t_axil_m_wr(.ADDR(TST_ADDR2), .DATA('h321));					// 2
+	// 	// #20; i_hsk_ena[1] = 1;
+		
+	// 	#15; 
+
+	// 	t_axil_ctrl_rd(.ADDR(WR_SLVERR_ADDR));		#10;			// 1 wr err
+	// 	t_axil_ctrl_rd(.ADDR(WR_DECERR_ADDR));		#10;			// 2 wr err
+	// 	t_axil_ctrl_rd(.ADDR(WR_WD_ERR_ADDR));		#10;			// 3 wr err
+	// 	t_axil_ctrl_rd(.ADDR(RD_SLVERR_ADDR));		#10;			// 4 rd err
+	// 	t_axil_ctrl_rd(.ADDR(RD_DECERR_ADDR));		#10;			// 5 rd err
+	// 	t_axil_ctrl_rd(.ADDR(RD_WD_ERR_ADDR));		#10;			// 6 rd err
+	// 	t_axil_ctrl_rd(.ADDR(RG_ST_ERR_ADDR));		#10;			// 6 all err
+
+	// 	#15;
+
+
+	// end
 
     axil_fw_top#(
 
