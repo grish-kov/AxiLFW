@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_axil_fw_top_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="axi" />
+            <top_module name="glbl" />
+            <top_module name="tb_axil_fw_top" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="148.601 ns"></ZoomEndTime>
+      <Cursor1Time time="140.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="190"></NameColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="16" />
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/i_rst">
+      <obj_property name="ElementShortName">i_rst</obj_property>
+      <obj_property name="ObjectShortName">i_rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/i_clk">
+      <obj_property name="ElementShortName">i_clk</obj_property>
+      <obj_property name="ObjectShortName">i_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/s_axil_arready">
+      <obj_property name="ElementShortName">s_axil_arready</obj_property>
+      <obj_property name="ObjectShortName">s_axil_arready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/s_axil_arvalid">
+      <obj_property name="ElementShortName">s_axil_arvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axil_arvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/s_axil_araddr">
+      <obj_property name="ElementShortName">s_axil_araddr[11:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axil_araddr[11:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/s_axil_rready">
+      <obj_property name="ElementShortName">s_axil_rready</obj_property>
+      <obj_property name="ObjectShortName">s_axil_rready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/s_axil_rvalid">
+      <obj_property name="ElementShortName">s_axil_rvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axil_rvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/s_axil_rdata">
+      <obj_property name="ElementShortName">s_axil_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axil_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/s_axil_rresp">
+      <obj_property name="ElementShortName">s_axil_rresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axil_rresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/RADDR">
+      <obj_property name="ElementShortName">RADDR[11:0]</obj_property>
+      <obj_property name="ObjectShortName">RADDR[11:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/TST_ADDR1">
+      <obj_property name="ElementShortName">TST_ADDR1[11:0]</obj_property>
+      <obj_property name="ObjectShortName">TST_ADDR1[11:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/TST_ADDR2">
+      <obj_property name="ElementShortName">TST_ADDR2[11:0]</obj_property>
+      <obj_property name="ObjectShortName">TST_ADDR2[11:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/TST_ADDR3">
+      <obj_property name="ElementShortName">TST_ADDR3[11:0]</obj_property>
+      <obj_property name="ObjectShortName">TST_ADDR3[11:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/TST_ADDR4">
+      <obj_property name="ElementShortName">TST_ADDR4[11:0]</obj_property>
+      <obj_property name="ObjectShortName">TST_ADDR4[11:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/q_rd_data">
+      <obj_property name="ElementShortName">q_rd_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">q_rd_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_rg_map/TST_ARR">
+      <obj_property name="ElementShortName">TST_ARR[3:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">TST_ARR[3:0][31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+</wave_config>

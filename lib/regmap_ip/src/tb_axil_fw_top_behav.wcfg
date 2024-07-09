@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_axil_fw_top_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="axi" />
+            <top_module name="glbl" />
+            <top_module name="tb_axil_fw_top" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="188.601 ns"></ZoomEndTime>
+      <Cursor1Time time="100.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="210"></NameColumnWidth>
+      <ValueColumnWidth column_width="86"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="22" />
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/i_clk">
+      <obj_property name="ElementShortName">i_clk</obj_property>
+      <obj_property name="ObjectShortName">i_clk</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/xADDR">
+      <obj_property name="ElementShortName">xADDR[11:0]</obj_property>
+      <obj_property name="ObjectShortName">xADDR[11:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/q_wd_ena">
+      <obj_property name="ElementShortName">q_wd_ena</obj_property>
+      <obj_property name="ObjectShortName">q_wd_ena</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/q_w_ena">
+      <obj_property name="ElementShortName">q_w_ena</obj_property>
+      <obj_property name="ObjectShortName">q_w_ena</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/q_r_ena">
+      <obj_property name="ElementShortName">q_r_ena</obj_property>
+      <obj_property name="ObjectShortName">q_r_ena</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/awvalid">
+      <obj_property name="ElementShortName">awvalid</obj_property>
+      <obj_property name="ObjectShortName">awvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/awready">
+      <obj_property name="ElementShortName">awready</obj_property>
+      <obj_property name="ObjectShortName">awready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/awaddr">
+      <obj_property name="ElementShortName">awaddr[11:0]</obj_property>
+      <obj_property name="ObjectShortName">awaddr[11:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/wvalid">
+      <obj_property name="ElementShortName">wvalid</obj_property>
+      <obj_property name="ObjectShortName">wvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/wready">
+      <obj_property name="ElementShortName">wready</obj_property>
+      <obj_property name="ObjectShortName">wready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/wdata">
+      <obj_property name="ElementShortName">wdata[63:0]</obj_property>
+      <obj_property name="ObjectShortName">wdata[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/bvalid">
+      <obj_property name="ElementShortName">bvalid</obj_property>
+      <obj_property name="ObjectShortName">bvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/bready">
+      <obj_property name="ElementShortName">bready</obj_property>
+      <obj_property name="ObjectShortName">bready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/bresp">
+      <obj_property name="ElementShortName">bresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">bresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/arvalid">
+      <obj_property name="ElementShortName">arvalid</obj_property>
+      <obj_property name="ObjectShortName">arvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/arready">
+      <obj_property name="ElementShortName">arready</obj_property>
+      <obj_property name="ObjectShortName">arready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/araddr">
+      <obj_property name="ElementShortName">araddr[11:0]</obj_property>
+      <obj_property name="ObjectShortName">araddr[11:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/rvalid">
+      <obj_property name="ElementShortName">rvalid</obj_property>
+      <obj_property name="ObjectShortName">rvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/rready">
+      <obj_property name="ElementShortName">rready</obj_property>
+      <obj_property name="ObjectShortName">rready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/rdata">
+      <obj_property name="ElementShortName">rdata[63:0]</obj_property>
+      <obj_property name="ObjectShortName">rdata[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/s_axil/rresp">
+      <obj_property name="ElementShortName">rresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">rresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/RG_STAT">
+      <obj_property name="ElementShortName">RG_STAT[26:0]</obj_property>
+      <obj_property name="ObjectShortName">RG_STAT[26:0]</obj_property>
+   </wvobject>
+</wave_config>

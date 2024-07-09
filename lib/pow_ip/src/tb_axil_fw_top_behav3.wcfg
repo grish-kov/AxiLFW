@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_axil_fw_top_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="axi" />
+            <top_module name="glbl" />
+            <top_module name="tb_axil_fw_top" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="87.350 ns"></ZoomStartTime>
+      <ZoomEndTime time="107.731 ns"></ZoomEndTime>
+      <Cursor1Time time="100.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="174"></NameColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="22" />
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/i_clk">
+      <obj_property name="ElementShortName">i_clk</obj_property>
+      <obj_property name="ObjectShortName">i_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/i_rst">
+      <obj_property name="ElementShortName">i_rst</obj_property>
+      <obj_property name="ObjectShortName">i_rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_awready">
+      <obj_property name="ElementShortName">ctrl_axil_awready</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_awready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_awvalid">
+      <obj_property name="ElementShortName">ctrl_axil_awvalid</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_awvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_awaddr">
+      <obj_property name="ElementShortName">ctrl_axil_awaddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_awaddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_awprot">
+      <obj_property name="ElementShortName">ctrl_axil_awprot[2:0]</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_awprot[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_wready">
+      <obj_property name="ElementShortName">ctrl_axil_wready</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_wready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_wvalid">
+      <obj_property name="ElementShortName">ctrl_axil_wvalid</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_wvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_wdata">
+      <obj_property name="ElementShortName">ctrl_axil_wdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_wdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_wstrb">
+      <obj_property name="ElementShortName">ctrl_axil_wstrb[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_wstrb[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_bready">
+      <obj_property name="ElementShortName">ctrl_axil_bready</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_bready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_bvalid">
+      <obj_property name="ElementShortName">ctrl_axil_bvalid</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_bvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_bresp">
+      <obj_property name="ElementShortName">ctrl_axil_bresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_bresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_arready">
+      <obj_property name="ElementShortName">ctrl_axil_arready</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_arready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_arvalid">
+      <obj_property name="ElementShortName">ctrl_axil_arvalid</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_arvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_araddr">
+      <obj_property name="ElementShortName">ctrl_axil_araddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_araddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_arprot">
+      <obj_property name="ElementShortName">ctrl_axil_arprot[2:0]</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_arprot[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_rready">
+      <obj_property name="ElementShortName">ctrl_axil_rready</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_rready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_rvalid">
+      <obj_property name="ElementShortName">ctrl_axil_rvalid</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_rvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_rdata">
+      <obj_property name="ElementShortName">ctrl_axil_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/ctrl_axil_rresp">
+      <obj_property name="ElementShortName">ctrl_axil_rresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ctrl_axil_rresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_axil_fw_top/u_axil_fw/u_fw/q_rena">
+      <obj_property name="ElementShortName">q_rena</obj_property>
+      <obj_property name="ObjectShortName">q_rena</obj_property>
+   </wvobject>
+</wave_config>
