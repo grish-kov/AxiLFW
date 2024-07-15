@@ -251,22 +251,6 @@ module axil_fw_top #(
 
       ) m_axil ();
 
-      // assign m_axil.awvalid =  s_axil.awvalid;
-      // assign s_axil.awready =  m_axil.awready ;
-			// assign m_axil.awaddr  =  s_axil.awaddr ;
-      // assign s_axil.wready  =  m_axil.wready ;
-			// assign m_axil.wvalid  =  s_axil.wvalid ;
-			// assign m_axil.wdata   =  s_axil.wdata ;
-			// assign m_axil.wstrb   =  s_axil.wstrb ;
-      // assign s_axil.bvalid  =  m_axil.bvalid ;
-			// assign m_axil.bready  =  s_axil.bready ;
-			// assign m_axil.arvalid =  s_axil.arvalid ;
-      // assign s_axil.arready =  m_axil.arready ;
-			// assign m_axil.araddr  =  s_axil.araddr ;
-      // assign m_axil.rvalid  =  s_axil.rvalid ;
-			// assign s_axil.rready  =  m_axil.rready ;
-			// assign s_axil.rdata   =  m_axil.rdata ;
-
     axil_fw u_fw (
 
         .i_clk                          (i_clk),                  //  input wire i_clk
