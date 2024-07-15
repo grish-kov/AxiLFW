@@ -221,8 +221,8 @@ endinterface : if_axil
 module axil_fw_top #(
 
     shortint  G_ADDR_W = 32, 		            //  AXIL xADDR bit width
-              G_WD_WDT = 8,                 //  watchdog length width
-              G_DATA_W = 32                 //  AXIL xDATA bit width
+              G_WD_WDT = 8,                     //  watchdog length width
+              G_DATA_W = 32                     //  AXIL xDATA bit width
 
 ) (
 
