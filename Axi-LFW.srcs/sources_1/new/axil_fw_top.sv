@@ -73,11 +73,6 @@ package axi;
   
 endpackage : axi
 
-//  AXI4 Memory Mapped (lite) Parameters to Define the Signal Widths:
-//    N - Data Bus Width in Bytes;
-//    A - Address Width;
-//    PAYMASK - Payload Mask: { awprot, wstrb, bresp, arprot, rresp }
-
 interface if_axil #( parameter int N = 8, A = 16, bit [0:4] PAYMASK = '1 ) ();
 
   import axi::*;
