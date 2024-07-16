@@ -206,7 +206,7 @@ interface if_axil #( parameter int N = 8, A = 16, bit [0:4] PAYMASK = '1 ) ();
     import wa_paymask, import wd_paymask, import wr_payload, import ra_paymask, import rd_payload 
   );
 
-  // Slave Ports
+    // Slave Ports
   modport slave (
     output awready, input awvalid, awaddr, awprot, 
     output wready, input wvalid, wdata, wstrb, 
