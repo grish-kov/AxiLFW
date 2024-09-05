@@ -88,14 +88,6 @@ module tb_axil_fw_top #(
 			`MACRO_AXIL_HSK(m_axil, awready, awvalid);
 			`MACRO_AXIL_HSK(m_axil, wready, wvalid);
 			`MACRO_AXIL_HSK(m_axil, bvalid, bready);
-
-			
-
-			// `MACRO_AXIL_HSK(m_axil, awready, awvalid);
-			// m_axil.wvalid 	=  1;
-			// `MACRO_AXIL_HSK(m_axil, wready, wvalid);
-		// write response
-			// `MACRO_AXIL_HSK(m_axil, bvalid, bready);
 		end
 	endtask : t_axil_m_wr
 
@@ -108,8 +100,6 @@ module tb_axil_fw_top #(
 			// #dt;
 		// read data
 			`MACRO_AXIL_HSK(m_axil, rvalid, rready);
-
-
 		
 		end
 	endtask : t_axil_m_rd	
@@ -156,19 +146,19 @@ module tb_axil_fw_top #(
 		// i_hsk_ena = '0;
 		#10;
 		m_axil.awaddr 	= 4'b0000;
-		m_axil.wdata 	=  'h123;
+		m_axil.wdata 	=  'h111123;
 		m_axil.wstrb 	= '1;
 		`MACRO_AXIL_HSK(m_axil, awready, awvalid);
 		#10;
 		
 		m_axil.awaddr 	= 4'b0100;
-		m_axil.wdata 	=  'h321;
+		m_axil.wdata 	=  'h111321;
 		m_axil.wstrb 	= '1;
 		`MACRO_AXIL_HSK(m_axil, awready, awvalid);
 		
 		#10;
 		m_axil.awaddr 	= 4'b1000;
-		m_axil.wdata 	=  'h333;
+		m_axil.wdata 	=  'h111333;
 		m_axil.wstrb 	= '1;
 		// i_hsk_ena = '1;
 		`MACRO_AXIL_HSK(m_axil, awready, awvalid);

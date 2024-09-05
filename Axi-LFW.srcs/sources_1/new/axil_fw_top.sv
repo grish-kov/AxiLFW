@@ -246,31 +246,39 @@ module axil_fw_top #(
 
       ) m_axil ();
 
+      if_axil #(
+
+      .N(G_DATA_W), 
+      .A(G_ADDR_W), 
+      .PAYMASK(5'b01101)
+
+      ) rmap_s_axil ();
+
     axil_fw u_fw (
 
         .i_clk                          (i_clk),                  //  input wire i_clk
         .aresetn                          (i_rst),                  //  input wire i_rst
         .i_len                          (i_len),
           
-        .m_axil_awready                 (m_axil.awready),         //  input wire m_axil_awready
-        .m_axil_awvalid                 (m_axil.awvalid),         //  output wire m_axil_awvalid
-        .m_axil_awaddr                  (m_axil.awaddr),          //  output wire [7 : 0] m_axil_awaddr
-        .m_axil_awprot                  (m_axil.awprot),          //  output wire [2 : 0] m_axil_awprot
-        .m_axil_wready                  (m_axil.wready),          //  input wire m_axil_wready
-        .m_axil_wvalid                  (m_axil.wvalid),          //  output wire m_axil_wvalid
-        .m_axil_wdata                   (m_axil.wdata),           //  output wire [63 : 0] m_axil_wdata
-        .m_axil_wstrb                   (m_axil.wstrb),           //  output wire [7 : 0] m_axil_wstrb
-        .m_axil_bready                  (m_axil.bready),          //  output wire m_axil_bready
-        .m_axil_bvalid                  (m_axil.bvalid),          //  input wire m_axil_bvalid
-        .m_axil_bresp                   (m_axil.bresp),           //  input wire [1 : 0] m_axil_bresp
-        .m_axil_arready                 (m_axil.arready),         //  input wire m_axil_arready
-        .m_axil_arvalid                 (m_axil.arvalid),         //  output wire m_axil_arvalid
-        .m_axil_araddr                  (m_axil.araddr),          //  output wire [7 : 0] m_axil_araddr
-        .m_axil_arprot                  (m_axil.arprot),          //  output wire [2 : 0] m_axil_arprot
-        .m_axil_rready                  (m_axil.rready),          //  output wire m_axil_rready
-        .m_axil_rvalid                  (m_axil.rvalid),          //  input wire m_axil_rvalid
-        .m_axil_rdata                   (m_axil.rdata),           //  input wire [63 : 0] m_axil_rdata
-        .m_axil_rresp                   (m_axil.rresp),           //  input wire [1 : 0] m_axil_rresp
+        .m_axil_awready                 (rmap_s_axil.awready),         //  input wire m_axil_awready
+        .m_axil_awvalid                 (rmap_s_axil.awvalid),         //  output wire m_axil_awvalid
+        .m_axil_awaddr                  (rmap_s_axil.awaddr),          //  output wire [7 : 0] m_axil_awaddr
+        .m_axil_awprot                  (rmap_s_axil.awprot),          //  output wire [2 : 0] m_axil_awprot
+        .m_axil_wready                  (rmap_s_axil.wready),          //  input wire m_axil_wready
+        .m_axil_wvalid                  (rmap_s_axil.wvalid),          //  output wire m_axil_wvalid
+        .m_axil_wdata                   (rmap_s_axil.wdata),           //  output wire [63 : 0] m_axil_wdata
+        .m_axil_wstrb                   (rmap_s_axil.wstrb),           //  output wire [7 : 0] m_axil_wstrb
+        .m_axil_bready                  (rmap_s_axil.bready),          //  output wire m_axil_bready
+        .m_axil_bvalid                  (rmap_s_axil.bvalid),          //  input wire m_axil_bvalid
+        .m_axil_bresp                   (rmap_s_axil.bresp),           //  input wire [1 : 0] m_axil_bresp
+        .m_axil_arready                 (rmap_s_axil.arready),         //  input wire m_axil_arready
+        .m_axil_arvalid                 (rmap_s_axil.arvalid),         //  output wire m_axil_arvalid
+        .m_axil_araddr                  (rmap_s_axil.araddr),          //  output wire [7 : 0] m_axil_araddr
+        .m_axil_arprot                  (rmap_s_axil.arprot),          //  output wire [2 : 0] m_axil_arprot
+        .m_axil_rready                  (rmap_s_axil.rready),          //  output wire m_axil_rready
+        .m_axil_rvalid                  (rmap_s_axil.rvalid),          //  input wire m_axil_rvalid
+        .m_axil_rdata                   (rmap_s_axil.rdata),           //  input wire [63 : 0] m_axil_rdata
+        .m_axil_rresp                   (rmap_s_axil.rresp),           //  input wire [1 : 0] m_axil_rresp
           
         .s_axil_awready                 (s_axil.awready),         //  output wire s_axil_awready
         .s_axil_awvalid                 (s_axil.awvalid),         //  input wire s_axil_awvalid
@@ -314,7 +322,38 @@ module axil_fw_top #(
         
 );
 
-    myip_0 u_rg_map(
+    fw_reg_map u_regmap (
+
+        .i_clk                          (i_clk),                  //  input wire i_clk
+        .aresetn                        (i_rst),                  //  input wire i_rst
+      
+        .i_hsk_ena                      ('1),
+        .i_err                          ('0),
+
+        .s_axil_awready                 (rmap_s_axil.awready),         //  output wire s_axil_awready
+        .s_axil_awvalid                 (rmap_s_axil.awvalid),         //  input wire s_axil_awvalid
+        .s_axil_awaddr                  (rmap_s_axil.awaddr),          //  input wire [7 : 0] s_axil_awaddr
+        .s_axil_awprot                  (rmap_s_axil.awprot),          //  input wire [2 : 0] s_axil_awprot
+        .s_axil_wready                  (rmap_s_axil.wready),          //  output wire s_axil_wready
+        .s_axil_wvalid                  (rmap_s_axil.wvalid),          //  input wire s_axil_wvalid
+        .s_axil_wdata                   (rmap_s_axil.wdata),           //  input wire [63 : 0] s_axil_wdata
+        .s_axil_wstrb                   (rmap_s_axil.wstrb),           //  input wire [7 : 0] s_axil_wstrb
+        .s_axil_bready                  (rmap_s_axil.bready),          //  input wire s_axil_bready
+        .s_axil_bvalid                  (rmap_s_axil.bvalid),          //  output wire s_axil_bvalid
+        .s_axil_bresp                   (rmap_s_axil.bresp),           //  output wire [1 : 0] s_axil_bresp
+        .s_axil_arready                 (rmap_s_axil.arready),         //  output wire s_axil_arready
+        .s_axil_arvalid                 (rmap_s_axil.arvalid),         //  input wire s_axil_arvalid
+        .s_axil_araddr                  (rmap_s_axil.araddr),          //  input wire [7 : 0] s_axil_araddr
+        .s_axil_arprot                  (rmap_s_axil.arprot),          //  input wire [2 : 0] s_axil_arprot
+        .s_axil_rready                  (rmap_s_axil.rready),          //  input wire s_axil_rready
+        .s_axil_rvalid                  (rmap_s_axil.rvalid),          //  output wire s_axil_rvalid
+        .s_axil_rdata                   (rmap_s_axil.rdata),           //  output wire [63 : 0] s_axil_rdata
+        .s_axil_rresp                   (rmap_s_axil.rresp)           //  output wire [1 : 0] s_axil_rresp
+
+    );
+
+
+    /* myip_0 u_rg_map(
 
         .s00_axi_aclk(i_clk),      
         .s00_axi_aresetn(i_rst),
@@ -341,6 +380,6 @@ module axil_fw_top #(
         .s00_axi_rdata                   (m_axil.rdata),           //  output wire [63 : 0] s_axil_rdata
         .s00_axi_rresp                   (m_axil.rresp)            //  output wire [1 : 0] s_axil_rresp
 
-    );
+    ); */
 
 endmodule : axil_fw_top

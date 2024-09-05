@@ -55,19 +55,25 @@ module axil_fw #(
 
     //  make ports end-to-end
 
-    assign m_axil_awvalid   =       s_axil_awvalid;  
-    assign m_axil_awaddr    =       s_axil_awaddr;     
-    assign m_axil_wvalid    =       s_axil_wvalid;     
-    assign m_axil_wdata     =       s_axil_wdata;        
-    assign m_axil_wstrb     =       s_axil_wstrb;
-    assign m_axil_bready    =       s_axil_bready;        
-    assign m_axil_arvalid   =       s_axil_arvalid;  
-    assign m_axil_araddr    =       s_axil_araddr;     
-    assign m_axil_rready    =       s_axil_rready;
-    assign s_axil_rdata     =       m_axil_rdata;               
+    assign m_axil_awvalid   =   q_axil_awvalid;  
+    assign m_axil_awaddr    =   q_axil_awaddr;     
+    assign m_axil_wvalid    =   q_axil_wvalid;     
+    assign m_axil_wdata     =   q_axil_wdata;        
+    assign m_axil_wstrb     =   q_axil_wstrb;
+    assign m_axil_bready    =   q_axil_bready;        
+    assign m_axil_arvalid   =   q_axil_arvalid;  
+    assign m_axil_araddr    =   q_axil_araddr;     
+    assign m_axil_rready    =   q_axil_rready;
+    
+    assign s_axil_rdata     =   q_axil_rdata;
+    assign s_axil_awready   =   q_axil_awready;  
+    assign s_axil_wready    =   q_axil_wready;  
+    assign s_axil_bvalid    =   q_axil_bvalid;
+    assign s_axil_rvalid    =   q_axil_rvalid;
+    assign s_axil_arready   =   q_axil_arready;
 
-    assign s_axil_bresp     =       2'b00;                  //  set bresp always OK
-    assign s_axil_rresp     =       2'b00;                  //  set rresp always OK  
+    assign s_axil_bresp     =   2'b00;                  //  set bresp always OK
+    assign s_axil_rresp     =   2'b00;                  //  set rresp always OK  
 
     reg q_bvalid    = 0,
         q_rvalid    = 0,
@@ -75,14 +81,23 @@ module axil_fw #(
         q_wready    = 0,
         q_arready   = 0;
 
-    assign s_axil_bvalid    =       m_axil_bvalid | q_bvalid;
-    assign s_axil_rvalid    =       m_axil_rvalid | q_rvalid;
-
-    assign s_axil_awready   =       m_axil_awready  | q_awready;        
-    assign s_axil_wready    =       m_axil_wready   | q_wready;        
-
-    assign s_axil_arready   =       m_axil_arready | q_arready;  
-
+    reg                             q_axil_awvalid;
+    reg [G_ADDR_W - 1 : 0]          q_axil_awaddr;
+    reg                             q_axil_awready;
+    reg                             q_axil_wvalid;
+    reg                             q_axil_wready;
+    reg [G_DATA_W - 1 : 0]          q_axil_wdata;
+    reg [(G_DATA_W >> 3) - 1 : 0]   q_axil_wstrb;
+    reg                             q_axil_bready;
+    reg                             q_axil_bvalid;
+    reg                             q_axil_arvalid;
+    reg                             q_axil_arready;
+    reg [G_ADDR_W - 1 : 0]          q_axil_araddr;
+    reg                             q_axil_rready;
+    reg                             q_axil_rvalid;
+    reg [G_DATA_W - 1 : 0]          q_axil_rdata;
+    reg [1 : 0]                     q_axil_bresp;
+    reg [1 : 0]                     q_axil_rresp;
 
     reg [G_CNT_WDT : 0]     q_w_slverr_cnt = 0,        //  write slave error counter
                             q_r_slverr_cnt = 0,        //  read slave error counter
@@ -91,8 +106,8 @@ module axil_fw #(
                             q_w_wd_err_cnt = 0,        //  write watchdog error counter
                             q_r_wd_err_cnt = 0;        //  read watchdog error counter
 
-    reg [G_WD_WDT - 1 : 0]  q_w_wd_cnt = 0,                 //  write watchdog counter
-                            q_r_wd_cnt = 0;                 //  read watchdog counter
+    reg [G_WD_WDT - 1 : 0]  q_w_wd_cnt = 0,             //  write watchdog counter
+                            q_r_wd_cnt = 0;             //  read watchdog counter
 
     reg [1 : 0] q_bresp = '0,                           //  temp. bresp register
                 q_rresp = '0;                           //  temp. rresp register
@@ -133,7 +148,32 @@ module axil_fw #(
 
             else if (i_len === 'x)
                 C_WD_TIM = 50;
+    
+    always_ff @(posedge i_clk) begin
+        
+        q_axil_awvalid  <= s_axil_awvalid;
+        q_axil_awaddr   <= s_axil_awaddr;
+        q_axil_awready  <= m_axil_awready | q_awready;
+        
+        q_axil_wvalid   <= s_axil_wvalid;
+        q_axil_wdata    <= s_axil_wdata;
+        q_axil_wready   <= m_axil_wready | q_wready;        
+        q_axil_wstrb    <= s_axil_wstrb;
+       
+        q_axil_bvalid   <= m_axil_bvalid | q_bvalid;
+        q_axil_bready   <= s_axil_bready;
+        q_axil_bresp    <= m_axil_bresp;
+        
+        q_axil_arvalid  <= s_axil_arvalid;
+        q_axil_arready  <= m_axil_arready | q_arready;
+        q_axil_araddr   <= s_axil_araddr;
+        
+        q_axil_rvalid   <= m_axil_rvalid | q_rvalid;
+        q_axil_rready   <= s_axil_rready;
+        q_axil_rdata    <= m_axil_rdata;
+        q_axil_rresp    <= m_axil_rresp;
 
+    end 
     // firewall for write transactions
 
     always_ff @(posedge i_clk) begin 
@@ -154,10 +194,10 @@ module axil_fw #(
 
         end
 
-        if (m_axil_awvalid)
+        if (q_axil_awvalid)
             q_w_wd_ena <= 1;
 
-        if ((m_axil_bready & s_axil_bvalid) | q_w_wd_cnt == 0) 
+        if ((q_axil_bready & q_axil_bvalid) | q_w_wd_cnt == 0) 
             q_w_wd_ena <= 0;
 
         if (q_w_wd_cnt == 1) begin
@@ -171,18 +211,17 @@ module axil_fw #(
         if (q_w_wd_cnt == 0)
             q_w_wd_err_cnt  <= q_w_wd_err_cnt + 1;
  
-
-        if (m_axil_awvalid & s_axil_awready) 
+        if (q_axil_awvalid & q_axil_awready) 
             q_awready   <= 0;
 
-        if (m_axil_wvalid & s_axil_wready) 
+        if (q_axil_wvalid & q_axil_wready) 
             q_wready    <= 0;
 
-        if (m_axil_bready & s_axil_bvalid) 
+        if (q_axil_bready & q_axil_bvalid) 
             q_bvalid    <= 0;
 
-        if (m_axil_bready & s_axil_bvalid) 
-            q_bresp     <= m_axil_bresp;
+        if (q_axil_bready & q_axil_bvalid) 
+            q_bresp     <= q_axil_bresp;
 
         //  reset, active - low
 
@@ -217,10 +256,10 @@ module axil_fw #(
 
         end      
 
-        if (m_axil_arvalid)
+        if (q_axil_arvalid)
             q_r_wd_ena <= 1;
 
-        if ((m_axil_rready & s_axil_rvalid) | q_w_wd_cnt == 0) 
+        if ((q_axil_rready & q_axil_rvalid) | q_w_wd_cnt == 0) 
             q_r_wd_ena <= 0;
 
         if (q_r_wd_cnt == 1) begin
@@ -234,14 +273,14 @@ module axil_fw #(
             q_r_wd_err_cnt  <= q_r_wd_err_cnt + 1;
 
 
-        if (m_axil_arvalid & s_axil_arready) 
+        if (q_axil_arvalid & q_axil_arready) 
             q_arready   <= 0;
 
-        if (m_axil_rready & s_axil_rvalid) 
+        if (q_axil_rready & q_axil_rvalid) 
             q_rvalid    <= 0;
 
-        if (m_axil_rready & s_axil_rvalid)
-            q_rresp     <= m_axil_rresp;
+        if (q_axil_rready & q_axil_rvalid)
+            q_rresp     <= q_axil_rresp;
 
     //  reset, active - low, reset all errors and counters
 
