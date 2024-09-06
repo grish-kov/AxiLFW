@@ -215,10 +215,10 @@ module axil_firewall #(
 
         end
 
-        if (m_axil_awvalid)
+        if (q_axil_awvalid)
             q_w_wd_ena <= 1;
 
-        if ((m_axil_bready & s_axil_bvalid) | q_w_wd_cnt == 0) 
+        if ((q_axil_bready & q_axil_bvalid) | q_w_wd_cnt == 0) 
             q_w_wd_ena <= 0;
 
         if (q_w_wd_cnt == 1) begin
@@ -274,10 +274,10 @@ module axil_firewall #(
 
         end      
 
-        if (s_axil_arvalid)
+        if (q_axil_arvalid)
             q_r_wd_ena <= 1;
 
-        if ((s_axil_rready & m_axil_rvalid) | q_r_wd_cnt == 0) 
+        if ((q_axil_rready & q_axil_rvalid) | q_r_wd_cnt == 0) 
             q_r_wd_ena <= 0;
 
         if (q_r_wd_cnt == 1) begin
@@ -295,7 +295,7 @@ module axil_firewall #(
 
         end
 
-        if (s_axil_rready & m_axil_rvalid)
+        if (q_axil_rready & q_axil_rvalid)
             q_wd_rresp     <= q_axil_rresp;
 
     //  reset, active - low, reset all errors and counters

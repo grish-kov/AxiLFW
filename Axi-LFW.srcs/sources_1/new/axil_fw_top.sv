@@ -254,7 +254,7 @@ module axil_fw_top #(
 
       ) rmap_s_axil ();
 
-    axil_fw u_fw (
+    axil_firewall u_fw (
 
         .i_clk                          (i_clk),                  //  input wire i_clk
         .aresetn                          (i_rst),                  //  input wire i_rst
@@ -328,7 +328,7 @@ module axil_fw_top #(
         .aresetn                        (i_rst),                  //  input wire i_rst
       
         .i_hsk_ena                      ('1),
-        .i_err                          ('0),
+        .i_err                          ('1),
 
         .s_axil_awready                 (rmap_s_axil.awready),         //  output wire s_axil_awready
         .s_axil_awvalid                 (rmap_s_axil.awvalid),         //  input wire s_axil_awvalid
